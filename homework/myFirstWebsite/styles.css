@@ -1,0 +1,55 @@
+
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.0;
+    font-family: courier-std, monospace;
+    font-weight: 700;
+       }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 8px 10%;
+    overflow: hidden;
+    background-color: #333333;
+    height: auto;
+    font-size: 10px;
+    position:fixed;
+    top: 0;
+    width: 80%;
+    text-align: center;
+}
+
+li a{
+    display:block;
+    color: #ff0099;
+    padding-bottom: 5px;
+    margin: 2px;
+    width: 100px;
+    height: 20px;
+}
+
+#introduction, #wiki {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+#separator, .selection-title{
+    text-align: center;
+    line-height: 3.0;
+    font-size: 30px;
+}
+
+
+h1 {
+    font-family: 'Arvo', serif;
+    font-size: 50px;
+}
+
+h3{
+    Font-size: 20px;
+    font-weight: bold;
+}

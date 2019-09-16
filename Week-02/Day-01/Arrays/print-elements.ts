@@ -11,4 +11,8 @@ for(let i = 0; i < integers.length; i++){
     console.log(integers[i])
 }
 
+// is this the correct built in method? :)
 
+integers.forEach(function(value) {
+    console.log(value)
+});

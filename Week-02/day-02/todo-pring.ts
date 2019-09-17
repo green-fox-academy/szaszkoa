@@ -10,6 +10,6 @@
 //  - Download games
 //      - Diablo
 
-let todoText: string = ' - Buy milk\n';
+let todoText: string = 'My todo:\n'+' - Buy milk\n'+' - Download games\n'+'\t - Diablo';
 
 console.log(todoText);

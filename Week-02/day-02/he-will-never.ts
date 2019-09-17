@@ -17,13 +17,17 @@ let hashmap = {
   3: 'say goodbye '
 };
 
-function greatestSong (Text) {
-    let Lyrics: string = "";
-    for (let i = 0; i < notSoCrypticMessage.length; ++i){
-    Lyrics = hashmap[notSoCrypticMessage[i]];
-    Text = Text.concat(Lyrics);
-    } 
-  return Text;
-}
+// function greatestSong (Text) {
+//     let Lyrics: string = "";
+//     for (let i = 0; i < notSoCrypticMessage.length; ++i){
+//     Lyrics = hashmap[notSoCrypticMessage[i]];
+//     Text = Text.concat(Lyrics);
+//     } 
+//   return Text;
+// }
 
-console.log(greatestSong(out));
+for (let i = 0; i < notSoCrypticMessage.length; ++i){
+  out += hashmap[notSoCrypticMessage[i]];
+};
+
+console.log(out);

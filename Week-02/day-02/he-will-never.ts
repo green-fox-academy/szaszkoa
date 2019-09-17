@@ -17,4 +17,13 @@ let hashmap = {
   3: 'say goodbye '
 };
 
-console.log(out)
+function greatestSong (Text) {
+    let Lyrics: string = "";
+    for (let i = 0; i < notSoCrypticMessage.length; ++i){
+    Lyrics = hashmap[notSoCrypticMessage[i]];
+    Text = Text.concat(Lyrics);
+    } 
+  return Text;
+}
+
+console.log(greatestSong(out));

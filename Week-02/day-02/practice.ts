@@ -34,10 +34,14 @@ console.log(sliced)
 // objects are defined by {}
 
 
-let Pets = {                   // this is the class
-    animaltype: "cat",         // th is an object
+let Pets = {                   // this is the object
+    animaltype: "cat",         // th is a key, and it has a value
     animalage: 12
 }
+
+// to call out a key, type Pets["cat"]
+
+// to write the keys of an object, call the .keys(<object name>) function
 
 console.log("my pet is a "+Pets.animaltype)
 console.log("and his age is "+Pets.animalage)

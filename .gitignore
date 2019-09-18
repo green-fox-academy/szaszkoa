@@ -3,6 +3,7 @@
 
 ### VisualStudioCode ###
 .vscode/*
+!.vscode/keybindings.json
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -13,3 +14,4 @@
 .history
 
 # End of https://www.gitignore.io/api/visualstudiocode
+.gitignore

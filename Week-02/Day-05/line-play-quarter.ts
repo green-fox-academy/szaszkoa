@@ -20,7 +20,7 @@ for(let k=0;k<variable;k++){
             ctx.stroke();
             ctx.strokeStyle = "green"
             ctx.beginPath();
-            ctx.moveTo(k*canvas.width/variable,(j*canvas.width/variable)+(i*interval)/variable));
+            ctx.moveTo(k*canvas.width/variable,(j*canvas.width/variable)+(i*interval)/variable);
             ctx.lineTo(i*interval/variable+(k*canvas.width/variable),(j*canvas.width/variable)+(canvas.width/variable));
             ctx.stroke();
         };

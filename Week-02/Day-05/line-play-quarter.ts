@@ -6,8 +6,8 @@ const ctx = canvas.getContext('2d');
 // ============================================================================
 // x = 400, y = 400
 
-let interval: number = 10;
-let segments: number =256;
+let interval: number = 20;
+let segments: number = 64;
 let variable: number = Math.sqrt(segments)
 
 for(let k=0;k<variable;k++){

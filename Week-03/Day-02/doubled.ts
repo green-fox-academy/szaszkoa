@@ -1,6 +1,8 @@
 // Create a method that decrypts duplicated-chars.txt
 
 'use strict';
+declare function require(path: string): any;
+export { };
 const fs = require('fs');
 
 let fileContent = fs.readFileSync('doubled.txt', 'utf8');

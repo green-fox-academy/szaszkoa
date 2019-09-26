@@ -6,9 +6,9 @@
 //     slaughter() -> removes the least hungry animal
 
 class Animal {
-    _name: string;
-    private _hunger: number;
-    private _thirst: number;
+    public _name: string;
+    public _hunger: number;
+    public _thirst: number;
 
     constructor(name?: string) {
         this._hunger = 50;
@@ -24,7 +24,7 @@ class Animal {
     }
     public play(amount?: number) {
         if (amount) {
-            if (this._hunger + amount >= 100 || this._thirst + amount>= 100) {
+            if (this._hunger + amount >= 100 || this._thirst + amount >= 100) {
                 console.log('your pet ' + this._name + ' played itself to death')
             } else {
                 this._hunger += amount;
@@ -48,14 +48,16 @@ class Farm {
     public _liveStock: Animal[];
     private _slots: number;
 
-    constructor(slots: number){
+    constructor(slots: number) {
         this._liveStock = [];
         this._slots = 5;
-    
+
     }
 
-    addAnimal(animal): void{
-        if(this._slots == 0){
+    //     breed() -> creates a new animal if there's place for it
+
+    breed(animal): void {
+        if (this._slots == 0) {
             console.log('Your farm is already at full capacity');
         } else {
             this._liveStock.push(animal);
@@ -63,19 +65,24 @@ class Farm {
         }
     }
 
-    breed(): void{
+    //     slaughter() -> removes the least hungry animal
 
-
-    };
-
-    slaughter(): void{
-
-
+    slaughter() {
+        let leastHungry: number = 0;
+        for (let i: number = 0; i < this._liveStock.length; i++) {
+            if (this._liveStock[i]._hunger < this._liveStock[leastHungry]._hunger) {
+                leastHungry = i;
+            }
+        }
+        this._liveStock.splice(leastHungry, 1);
+        this._slots++;
     };
 }
 
+// creating farm
 let myFarm = new Farm(5);
 
+//creating livestock
 let pig1 = new Animal('pig1');
 let pig2 = new Animal('pig2');
 let pig3 = new Animal('pig3');
@@ -83,11 +90,25 @@ let pig4 = new Animal('pig4');
 let pig5 = new Animal('pig5');
 let pig6 = new Animal('pig6');
 
-myFarm.addAnimal(pig1);
-myFarm.addAnimal(pig2);
-myFarm.addAnimal(pig3);
-myFarm.addAnimal(pig4);
-myFarm.addAnimal(pig5);
-myFarm.addAnimal(pig6);
+// adding livestock to farm
+myFarm.breed(pig1);
+myFarm.breed(pig2);
+myFarm.breed(pig3);
+myFarm.breed(pig4);
+myFarm.breed(pig5);
 
+// making the pigs play to select them for slaughter
+pig1.play(4);
+pig2.play(7);
+pig3.play(10);
+pig5.play(5);
+
+// getting hungry in all this work, i wan to eat something, and maybe get a horse after.
 console.log(myFarm._liveStock);
+console.log('- Im hungry, whats for dinner? - Porkchops my dear...! ');
+myFarm.slaughter();
+console.log(myFarm._liveStock);
+myFarm.breed(new Animal('horse1'));
+console.log('getting a horse, since horses are fun')
+console.log(myFarm._liveStock);
+

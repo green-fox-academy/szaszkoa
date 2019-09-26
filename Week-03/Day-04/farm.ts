@@ -105,10 +105,9 @@ pig5.play(5);
 
 // getting hungry in all this work, i wan to eat something, and maybe get a horse after.
 console.log(myFarm._liveStock);
-console.log('- Im hungry, whats for dinner? - Porkchops my dear...! ');
 myFarm.slaughter();
+console.log('----------------------------');
 console.log(myFarm._liveStock);
-myFarm.breed(new Animal('horse1'));
-console.log('getting a horse, since horses are fun')
-console.log(myFarm._liveStock);
-
+console.log('----------------------------');
+myFarm.breed(new Animal('turkey1'));
+console.log(myFarm);

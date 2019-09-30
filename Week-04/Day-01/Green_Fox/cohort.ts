@@ -16,17 +16,17 @@ class Cohort {
         this._mentors = [];
     }
 
-    public addStudent(student) {
+    public addStudent(student: Student) {
         this._students.push(student);
-    };
+    }
 
-    public addMentor(mentor) {
+    public addMentor(mentor: Mentor) {
         this._mentors.push(mentor);
-    };
+    }
 
     public info() {
-        console.log(`The ${this._name} cohort has ${this._students.length + 1} students and ${this._mentors.length + 1} mentors.`);
-    };
+        console.log(`The ${this._name} cohort has ${this._students.length} students and ${this._mentors.length} mentors.`);
+    }
 
 };
 

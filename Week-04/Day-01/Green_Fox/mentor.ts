@@ -4,7 +4,7 @@ import { Person } from './person';
 export class Mentor extends Person {
     protected _level: string; //junior / intermediate / senior
 
-    constructor(name?: string, age?: number, gender?: string, Level: string = 'Intermediate') {
+    constructor(name?: string, age?: number, gender?: string, Level: string = 'intermediate') {
         super(name, age, gender);
         this._level = Level;
     }
@@ -14,7 +14,7 @@ export class Mentor extends Person {
     };
 
     protected specificGetGoal(): string {
-        return 'Educate brilliant junoir software developers';
+        return 'Educate brilliant junior software developers';
     };
 
 }

@@ -12,7 +12,7 @@ export class Person {
     };
 
     public introduce(): void {
-        console.log(`Hi i\'m ${this._name}, a ${this._age} year old ${this._gender}`+ this.specificIntroduction());
+        console.log(`Hi i'm ${this._name}, a ${this._age} year old ${this._gender}`+ this.specificIntroduction());
     };
     
     protected specificIntroduction(): string {

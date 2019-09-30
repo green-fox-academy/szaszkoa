@@ -13,11 +13,11 @@ export class Sponsor extends Person {
 
     protected specificIntroduction(): string {
         return ` who represents ${this._company} and hired ${this._hiredStudents} students already`;
-    };
+    }
 
     protected specificGetGoal(): string {
         return 'Hire brilliant junoir software developers';
-    };
+    }
 
     public hire(){
         this._hiredStudents++;

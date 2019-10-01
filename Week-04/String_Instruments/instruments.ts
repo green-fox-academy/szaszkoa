@@ -7,64 +7,60 @@ export abstract class Instrument{
         this._name = name;
     }
 
-    play(): void{}
+    abstract play(): void
 }
 
 export abstract class StringedIntruments extends Instrument{
     protected _numberOfStrings: number;
     
-    constructor(name?: string, stringNumber?: number){
+    constructor(name: string, stringNumber: number){
         super(name);
         this._numberOfStrings = stringNumber;
     }
 
-    sound(){
-        return this.play();
-    }
+    abstract sound(): void
 }
 
 export class ElectricGuitar extends StringedIntruments{
-    protected _sound: string;
 
-    constructor(stringNumber: number = 6, name?: string, ){
-        super();
-        this._name = 'Electric Guitar'
-        this._sound = 'Twang'
-        this._numberOfStrings = stringNumber;
+    constructor(stringNumber: number = 6){
+        super('Electric Guitar', stringNumber);
+    }
+
+    sound(){
+        return 'Twang'
     }
 
     play(){
-        console.log(`${this._name}, a ${this._numberOfStrings}-stringed instrument, which goes ${this._sound}`)
+        console.log(`${this._name}, a ${this._numberOfStrings}-stringed instrument, which goes ${this.sound()}`)
     }
 }
 
 export class BassGuitar extends StringedIntruments{
-    protected _sound: string;
+    constructor(stringNumber: number = 4){
+        super('BassGuitar', stringNumber);
+    }
 
-    constructor(stringNumber: number = 4, name?: string, ){
-        super();
-        this._name = 'Bass Guitar'
-        this._sound = 'Duum-duum-duum'
-        this._numberOfStrings = stringNumber;
+    sound(){
+        return 'Duum-duum-duum';
     }
 
     play(){
-        console.log(`${this._name}, a ${this._numberOfStrings}-stringed indtrument, which goes ${this._sound}`)
+        console.log(`${this._name}, a ${this._numberOfStrings}-stringed indtrument, which goes ${this.sound()}`)
     }
 }
 
 export class Violin extends StringedIntruments{
-    protected _sound: string;
+    constructor(stringNumber: number = 4 ){
+        super('Violin', stringNumber);
+    }
 
-    constructor(stringNumber: number = 4, name?: string, ){
-        super();
-        this._name = 'Violin'
-        this._sound = 'Screech'
-        this._numberOfStrings = stringNumber;
+    sound(){
+        return 'Screech'
     }
 
     play(){
-        console.log(`${this._name}, a ${this._numberOfStrings}-stringed indtrument, which goes ${this._sound}`)
+        console.log(`${this._name}, a ${this._numberOfStrings}-stringed indtrument, which goes ${this.sound()}`)
     }
 }
 

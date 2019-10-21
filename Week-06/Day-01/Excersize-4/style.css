@@ -1,0 +1,44 @@
+
+*{
+  box-sizing: border-box;
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0px 5px;
+  margin: 0px;
+  background-color: #b02aff;
+  height: 40px;
+  align-items: center;
+
+}
+
+.item {
+  background-color: #2aeaff;
+  height: 60%;
+  width: 10%;
+  list-style: none;
+  margin: 0px 5px;
+}
+
+.home{
+  width: 15%;
+}
+
+.main{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.article{
+  background-color: #ffd62a;
+  width: 70%;
+  height: 500px;
+}
+
+.sidebar{
+  background-color: #51d400;
+  width: 30%;
+  height: 500px;
+}

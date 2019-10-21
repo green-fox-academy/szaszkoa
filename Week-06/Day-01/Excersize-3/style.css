@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  background-color: #ffd62a;
+  height: 300px;
+  width: 100%;
+  justify-content: left;
+  align-items: center;
+}
+
+.item{
+  position: relative;
+  left: -5px;
+  width: 100px;
+  height: 100px;
+  background-color:#b02aff;
+  margin: 5px;
+}

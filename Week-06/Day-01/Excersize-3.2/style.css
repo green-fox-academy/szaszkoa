@@ -1,0 +1,22 @@
+*{
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  background-color: #ffd62a;
+  height: 300px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.item{
+  position: relative;
+  bottom: -5px;
+  left: 5px;
+  width: 100px;
+  height: 100px;
+  background-color:#b02aff;
+  margin: 5px;
+}

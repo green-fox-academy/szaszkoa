@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Hello!</title>
+  <link rel="stylesheet" type="text/css" href="/static/style.css">
+</head>
+
+<body>
+  <div class='main'>
+  <h1>Cocktail</h1>
+  <span>
+    <a href='/'>all</a>
+    <% for(let i = 0; i<alcoholList.length; i++) {%>
+    <a href='/?alcohol=<%=alcoholList[i]%>'><%= alcoholList[i] %></a>
+    <% } %>
+  </span>
+  <br>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
+    <% for(let i = 0; i<filteredList.length; i++) {%>
+    <tr>
+      <td><strong> <%= filteredList[i].name %></strong><br><%= filteredList[i].contains.join(', ')%></td>
+      <td><strong><%= filteredList[i].price %> Ft.</strong></td>
+    </tr>
+    <% } %>
+  </table>
+</div>
+</body>
+
+</html>

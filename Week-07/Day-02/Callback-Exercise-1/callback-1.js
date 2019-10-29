@@ -7,6 +7,10 @@ const mapWith = (array, callback) => {
   // It stores the callback return values in the output.
   // The mapWith() should return with the output array.
 
+  for (let i = 0; i < array.length; i++) {
+    output.push(callback(array[i]));
+  };
+
   return output;
 }
 
@@ -23,7 +27,17 @@ console.log(mapWith([1, 2, 3], addOne));
 
 // Create a callback function which removes every second character from a string
 
+const removeSecondLetter = (string) => {
+  let output = '';
+  for (let i = 0; i < string.length; i++) {
+    output += string[i];
+    i++;
+  };
+  return output;
+}
+
 const words = ['map', 'reduce', 'filter'];
 
 console.log(mapWith(words, removeSecondLetter));
+
 // expected result: ['mp','rdc', 'fle']

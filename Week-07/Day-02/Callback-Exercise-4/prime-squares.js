@@ -6,11 +6,6 @@
 //    - the timer should fire every 100ms
 //    - the timer should stop when there are no more elements left to be colored
 
-const isPrime = num => {
-  for(let i = 2; i < num; i++)
-    if(num % i === 0) return false;
-  return num > 1;
-};
 
 let numberGenerator = () => {
   let numOfItems = 100;
@@ -22,20 +17,28 @@ let numberGenerator = () => {
   };
 };
 
-let primeChecker = () => {
+const isPrime = num => {
+  for(let i = 2; i < num; i++)
+    if(num % i === 0) return false;
+  return num > 1;
+};
+
+let primeChecker = (index) => {
   let numbersArray = document.getElementsByTagName('div');
-  for (let i = 0; i < numbersArray.length; i++) {
-    if (isPrime(numbersArray[i].innerText)){
-      numbersArray[i].setAttribute('class', 'prime')
+    if (isPrime(numbersArray[index].innerText)){
+      numbersArray[index].setAttribute('class', 'prime')
     } else {
-      numbersArray[i].setAttribute('class', 'not-prime')
+      numbersArray[index].setAttribute('class', 'not-prime')
     };
-  };
 };
 
 numberGenerator();
 
-setInterval(
-  primeChecker(),
-  100
-);
+let index = 0;
+let superInterval = setInterval( () =>{
+  primeChecker(index);
+  index +=1
+  if (index == 100){
+    clearInterval(superInterval)
+  }
+}, 100)

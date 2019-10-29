@@ -29,9 +29,8 @@ console.log(mapWith([1, 2, 3], addOne));
 
 const removeSecondLetter = (string) => {
   let output = '';
-  for (let i = 0; i < string.length; i++) {
+  for (let i = 0; i < string.length; i+=2) {
     output += string[i];
-    i++;
   };
   return output;
 }

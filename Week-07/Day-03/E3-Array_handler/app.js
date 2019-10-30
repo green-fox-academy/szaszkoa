@@ -59,13 +59,14 @@ app.post('/', jsonParser, (req, res) => {
     );
   } else {
 
-    let sameple = {
+    let sample = {
       "what": "sum",
       "numbers": [1, 2, 5, 10]
     }
 
     res.status(404);
-    res.send(`Input doesnt match criteria! Expected input is ${sample}: `)
+    res.send(`Input doesnt match criteria! Expected input is ${JSON.stringify(sample)} in JSON format.`)
+    res.send(sample);
   }
 });
 

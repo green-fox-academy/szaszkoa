@@ -5,6 +5,20 @@
 
 'use strict';
 
+// second way to solve the exercise
+
+let button = document.querySelector('button');
+button.addEventListener('click', timeLogger);
+
+function timeLogger(event) {
+  console.log(event.timeStamp);
+  button.removeEventListener('click', timeLogger);
+};
+
+
+
+// first way to solve the exercise
+/*
 let button = document.querySelector('button');
 let originalTime = 0;
 let  counter = 0;
@@ -20,3 +34,5 @@ function timeLogger(event) {
     return;
   };
 };
+
+*/

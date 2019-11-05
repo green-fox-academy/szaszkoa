@@ -8,5 +8,9 @@ window.addEventListener('keyup', keyListener);
 
 function keyListener(event) {
   let display = document.querySelector('h1');
-  display.textContent = `Last pressed key code is: ${event.code}`
+  display.textContent = `Last pressed key code is ${event.code}`;
+  console.log(event);
 };
+
+// event.key = key value
+// event.code = keyN for example when pressing N

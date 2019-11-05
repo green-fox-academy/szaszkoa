@@ -19,17 +19,18 @@ navigation.addEventListener('click', manipulation);
 // navigation.addEventListener('click', zoom)
 
 function manipulation(event) {
-  if (event.path[0].textContent == 'Up') {
+  let lable = event.path[0].textContent;
+  if (lable == 'Up') {
     positionY -= 10;
-  } else if (event.path[0].textContent == 'Down') {
+  } else if (lable == 'Down') {
     positionY += 10;
-  } else if (event.path[0].textContent == 'Left') {
+  } else if (lable == 'Left') {
     positionX -= 10;
-  } else if (event.path[0].textContent == 'Right') {
+  } else if (lable == 'Right') {
     positionX += 10;
-  } else if (event.path[0].textContent == 'Zoom in'){
+  } else if (lable == 'Zoom in'){
     zoom += 20;
-  } else if (event.path[0].textContent == 'Zoom out'){
+  } else if (lable == 'Zoom out'){
     zoom -= 20;
   }
   image.setAttribute('style', `background-position-y:${positionY}px; background-position-x:${positionX}px; background-size: ${zoom}%`);

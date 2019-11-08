@@ -1,0 +1,26 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  color: white;
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+}
+
+body >* {
+  padding: 60px;
+}
+
+.midle{
+  background-color: #51d400;
+  border: 5px solid #b02aff;
+}
+
+.left{
+  background-color: #ffd62a;
+  border: 5px solid #b02aff;
+}
+
+.right{
+  background-color: #ffd62a;
+  border: 5px solid #b02aff;
+}

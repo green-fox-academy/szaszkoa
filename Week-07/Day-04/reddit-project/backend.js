@@ -1,5 +1,7 @@
 'use strict';
 
+// boilerplate
+
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
@@ -12,12 +14,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const jsonParser = bodyParser.json();
 
+// connection details
+
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_DBNAME
 });
+
+// standard response after successfull query operations
 
 const responseSettings = {
   'Content-type': 'application/JSON',
@@ -26,12 +32,10 @@ const responseSettings = {
   'Status': 200
 };
 
+// database conneciton
+
 connection.connect((err) => {
-  if (err) {
-    throw err;
-  } else {
-    console.log('Database successfully connected.');
-  };
+  err ? console.error(new Error(err)) : console.log(`Database ${process.env.DB_DBNAME} successfully connected.`);
 });
 
 // get all posts
@@ -39,10 +43,7 @@ connection.connect((err) => {
 app.get('/posts', (req, res) => {
   let query = `SELECT * FROM ${tableName}`;
   connection.query(query, (err, result) => {
-    if (err) {
-      throw err;
-    };
-    res.set(responseSettings).send(JSON.stringify(result));
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
 });
 
@@ -52,16 +53,10 @@ app.post('/posts', jsonParser, (req, res) => {
   let inputQuery = `INSERT INTO ${tableName} (title, url) VALUES('${connection.escape(req.body.title)}','${connection.escape(req.body.url)}');`;
   let outputQuery = `SELECT * FROM ${tableName} WHERE id = (SELECT MAX(id) FROM ${tableName})`;
   connection.query(inputQuery, (err, result) => {
-    if (err) {
-      throw err;
-    };
-    connection.query(outputQuery, (err, result) => {
-      if (err) {
-        throw err;
-      } else {
-        res.set(responseSettings).send(JSON.stringify(result));
-      };
-    });
+    err ? res.send(new Error(err)) :
+      connection.query(outputQuery, (err, result) => {
+        err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
+      });
   });
 });
 
@@ -70,41 +65,27 @@ app.post('/posts', jsonParser, (req, res) => {
 app.put('/posts/:id/upvote', (req, res) => {
   let query = `UPDATE ${tableName} SET score = score +1 WHERE (id = ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
-    if (err) {
-      throw err;
-    } else {
-      res.set(responseSettings).send(JSON.stringify(result));
-    };
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
 });
 
 // downvote post
 
 app.put('/posts/:id/downvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score -1 WHERE (id= ${connection.escape(req.params.id)})`
+  let query = `UPDATE ${tableName} SET score = score -1 WHERE (id= ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
-    if (err) {
-      throw err;
-    } else {
-      res.set(responseSettings).send(JSON.stringify(result));
-    };
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Backend listening on port number ${PORT}.`);
-});
 
 // delete post
 // username functionality is still missing
 
-app.delete('/posts/:id', (req, res) =>{
-  let query = `DELETE FROM ${tableName} WHERE id = ${connection.escape(req.params.id)}`
+app.delete('/posts/:id', (req, res) => {
+  let query = `DELETE FROM ${tableName} WHERE id = ${connection.escape(req.params.id)}`;
   connection.query(query, (err, result) => {
-    if(err){
-      throw err;
-    };
-    res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
   });
 });
 
@@ -113,3 +94,8 @@ app.delete('/posts/:id', (req, res) =>{
 // app.put('/posts/:id', (req, res) => {
 //   let query = `UPDATE ${tableName} SET title = ${}`
 // })
+
+
+app.listen(PORT, () => {
+  console.log(`Backend listening on port number ${PORT}.`);
+});

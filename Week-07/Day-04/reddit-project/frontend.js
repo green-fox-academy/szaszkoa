@@ -11,15 +11,15 @@ xhr.onreadystatechange = () => {
 };
 xhr.send();
 
-xhr.open('POST', 'http://localhost:8080/posts');
-xhr.onreadystatechange = () => {
-    if (xhr.readyState == 4) {
-        xhr.send(
-            {
-                'title': 'placeholder Title',
-                'url': 'placeholder URL'
-            }
-        )
-    }
-}
+// xhr.open('POST', 'http://localhost:8080/posts');
+// xhr.onreadystatechange = () => {
+//     if (xhr.readyState == 4) {
+//         xhr.send(
+//             {
+//                 'title': 'placeholder Title',
+//                 'url': 'placeholder URL'
+//             }
+//         )
+//     }
+// }
 

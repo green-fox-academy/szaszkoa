@@ -20,23 +20,23 @@ app.get('/rocket', (req, res) => {
 app.get('/rocket/fill', (req, res) => {
   let inputCaliber = req.query.caliber;
   let inputAmount = parseInt(req.query.amount);
-  let statusPercentage = ((ammoAvailable + inputAmount)/12500)*100
+  let statusPercentage = ((ammoAvailable + inputAmount) / 12500) * 100
 
-  if(req.query.caliber == '.25'){
+  if (req.query.caliber == '.25') {
     rocketsShip.caliber25 += inputAmount;
-  } else if (req.query.caliber == '.30'){
+  } else if (req.query.caliber == '.30') {
     rocketsShip.caliber30 += inputAmount;
-  } else if (req.query.caliber == '.50'){
+  } else if (req.query.caliber == '.50') {
     rocketsShip.caliber50 += inputAmount;
   };
 
-  rocketsShip.shipstatus = statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : `${statusPercentage}%`;
-  rocketsShip.ready = statusPercentage == 100 ? true : false;
+  rocketsShip.shipstatus = statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : statusPercentage > 100 ? 'overloaded' : `${statusPercentage}%`;
+  rocketsShip.ready = rocketsShip.shipstatus == 'full' ? true : false;
 
   let response = {
     "received": inputCaliber,
     "amount": inputAmount,
-    "shipstatus": statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : `${statusPercentage}%`,
+    "shipstatus": statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : statusPercentage > 100 ? 'overloaded' : `${statusPercentage}%`,
     "ready": statusPercentage == 100 ? true : false
   };
 

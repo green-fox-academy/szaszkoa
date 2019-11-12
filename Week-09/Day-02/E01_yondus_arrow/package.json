@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test/routes | tap-spec"
+    "test": "node test/routes | tap-spec",
+    "start": "nodemon server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "supertest": "^4.0.2",
+    "tap-spec": "^5.0.0",
     "tape": "^4.11.0"
   },
   "dependencies": {

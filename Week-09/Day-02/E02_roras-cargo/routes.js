@@ -18,29 +18,35 @@ app.get('/rocket', (req, res) => {
 });
 
 app.get('/rocket/fill', (req, res) => {
-  let inputCaliber = req.query.caliber;
-  let inputAmount = parseInt(req.query.amount);
-  let statusPercentage = ((ammoAvailable + inputAmount) / 12500) * 100
-
-  if (req.query.caliber == '.25') {
-    rocketsShip.caliber25 += inputAmount;
-  } else if (req.query.caliber == '.30') {
-    rocketsShip.caliber30 += inputAmount;
-  } else if (req.query.caliber == '.50') {
-    rocketsShip.caliber50 += inputAmount;
+  if(req.query.caliber && req.query.amount){
+    let inputCaliber = req.query.caliber;
+    let inputAmount = parseInt(req.query.amount);
+    let statusPercentage = ((ammoAvailable + inputAmount) / 12500) * 100
+  
+    if (req.query.caliber == '.25') {
+      rocketsShip.caliber25 += inputAmount;
+    } else if (req.query.caliber == '.30') {
+      rocketsShip.caliber30 += inputAmount;
+    } else if (req.query.caliber == '.50') {
+      rocketsShip.caliber50 += inputAmount;
+    };
+  
+    rocketsShip.shipstatus = statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : statusPercentage > 100 ? 'overloaded' : `${statusPercentage}%`;
+    rocketsShip.ready = rocketsShip.shipstatus == 'full' ? true : false;
+  
+    let response = {
+      "received": inputCaliber,
+      "amount": inputAmount,
+      "shipstatus": statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : statusPercentage > 100 ? 'overloaded' : `${statusPercentage}%`,
+      "ready": statusPercentage == 100 ? true : false
+    };
+  
+    res.status(200).json(response);
+  } else {
+    res.status(400).json({
+      'error': 'No query sent'
+    });
   };
-
-  rocketsShip.shipstatus = statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : statusPercentage > 100 ? 'overloaded' : `${statusPercentage}%`;
-  rocketsShip.ready = rocketsShip.shipstatus == 'full' ? true : false;
-
-  let response = {
-    "received": inputCaliber,
-    "amount": inputAmount,
-    "shipstatus": statusPercentage == 0 ? 'empty' : statusPercentage == 100 ? 'full' : statusPercentage > 100 ? 'overloaded' : `${statusPercentage}%`,
-    "ready": statusPercentage == 100 ? true : false
-  };
-
-  res.status(200).json(response);
 });
 
 module.exports = app;

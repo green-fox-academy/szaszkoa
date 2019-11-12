@@ -30,3 +30,15 @@ test('Testing Yondu\'s teleporting arrow', (t) => {
       t.end();
     });
 });
+
+test('Testing Yondu\'s arrow with no parameters given', (t) => {
+  request(app)
+    .get('/yondu')
+    .expect('Content-Type', /json/)
+    .expect(404)
+    .end((err, res) => {
+      t.error(err, 'No error');
+      t.equal(res.body.error, 'No parameters have been set.', 'Proper error response is given');
+      t.end();
+    })
+});

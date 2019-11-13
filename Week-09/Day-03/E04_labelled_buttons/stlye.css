@@ -1,0 +1,72 @@
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  height: 100vh;
+  background-color: #313841;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: 
+  "button1 . . . . "
+  "button2 delete delete delete delete"
+  "button3 sure sure sure sure";
+}
+
+button {
+  background-color: #1c242b;
+  border: none;
+  margin-bottom: 40px;
+  padding: 22px;
+}
+
+div{
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 40px;
+  padding: 30px 0;
+  color: white;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: none;
+}
+
+svg {
+  height: 60px;
+}
+
+
+.button1{grid-area: button1;}
+
+.button2{
+  grid-area: button2;
+}
+
+.button3{
+  grid-area: button3;
+}
+
+/* BUTTON ACTIONS */
+
+.button2:hover + .delete{
+  display: block; 
+}
+
+.button3:hover + .sure{
+  display: block;
+}
+
+.delete{
+  background-color: #f34541;
+  grid-area: delete;
+}
+
+.sure{
+  background-color: #38ba7d;
+  grid-area: sure;
+}

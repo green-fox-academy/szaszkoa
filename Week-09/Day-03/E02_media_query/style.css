@@ -22,3 +22,16 @@
   background-color:#b02aff;
   flex-grow: 1;
 }
+
+@media screen and (max-width: 600px){
+  .container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+  
+  .item{
+    height: 100px;
+    width: 100%;
+  }
+}

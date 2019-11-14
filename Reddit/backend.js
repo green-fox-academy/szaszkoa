@@ -51,8 +51,8 @@ app.get('/posts', (req, res) => {
 // post a new post, and send back the full JSON of the last post in the same time
 
 app.post('/posts', jsonParser, (req, res) => {
-  let inputQuery = `INSERT INTO ${tableName} (title, url) VALUES('${connection.escape(req.body.title)}','${connection.escape(req.body.url)}');`;
-  let outputQuery = `SELECT * FROM ${tableName} WHERE id = (SELECT MAX(id) FROM ${tableName})`;
+  let inputQuery = `INSERT INTO ${tableName} (title, url, timestamp, score, owner, vote) VALUES(${connection.escape(req.body.title)},${connection.escape(req.body.url)}, '${Math.floor(Date.now()/1000)}', '0','0','0');`;
+  let outputQuery = `SELECT * FROM ${tableName} WHERE post_id = (SELECT MAX(post_id) FROM ${tableName})`;
   connection.query(inputQuery, (err, result) => {
     let errorMessage = `Could not create post.`
     err ? res.send({ 'Message': errorMessage, 'Error': err }) :
@@ -65,7 +65,7 @@ app.post('/posts', jsonParser, (req, res) => {
 // upvote post
 
 app.put('/posts/:id/upvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score +1 WHERE (id = ${connection.escape(req.params.id)})`;
+  let query = `UPDATE ${tableName} SET score = score +1, vote = vote + 1 WHERE (post_id = ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
@@ -74,7 +74,7 @@ app.put('/posts/:id/upvote', (req, res) => {
 // downvote post
 
 app.put('/posts/:id/downvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score -1 WHERE (id= ${connection.escape(req.params.id)})`;
+  let query = `UPDATE ${tableName} SET score = score -1, vote = vote -1 WHERE (post_id= ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
@@ -84,17 +84,13 @@ app.put('/posts/:id/downvote', (req, res) => {
 // username functionality is still missing
 
 app.delete('/posts/:id', (req, res) => {
-  let query = `DELETE FROM ${tableName} WHERE id = ${connection.escape(req.params.id)}`;
+  let query = `DELETE FROM ${tableName} WHERE post_id = ${connection.escape(req.params.id)}`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
   });
 });
 
-// title modification
-
-// app.put('/posts/:id', (req, res) => {
-//   let query = `UPDATE ${tableName} SET title = ${}`
-// })
+// listening on port
 
 app.listen(PORT, () => {
   console.log(`Backend listening on port number ${PORT}.`);

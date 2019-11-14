@@ -1,19 +1,19 @@
 'use strict';
 
-let body = document.querySelector('body');
-let divElement = document.createElement('div');
+const body = document.querySelector('body');
+const url = 'http://localhost:8080/';
 
-const url = 'http://localhost:8080/posts';
-
-fetch(url)
+fetch(`${url}posts`, { method: 'GET' })
+    .then((response) => response.json())
     .then((data) => {
-        
-        console.log(data.json());
+        console.log(data);
     })
     .catch((error) => {
-        console.log('You fucked it up');
-        console.log(error);
-    })
+        console.log({
+            'Message': 'You fucked it up Son, here\'s how',
+            'Error': error
+        });
+    });
 
 
 /*

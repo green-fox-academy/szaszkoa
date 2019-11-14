@@ -1,97 +1,48 @@
 'use strict';
 
-// boilerplate
+let body = document.querySelector('body');
+let divElement = document.createElement('div');
 
-const express = require('express');
-const mysql = require('mysql');
-const bodyParser = require('body-parser');
-const env = require('dotenv').config();
-const app = express();
-const PORT = 8080;
-const tableName = 'posts';
+const url = 'http://localhost:8080/posts';
 
-app.use(bodyParser.urlencoded({ extended: false }));
+fetch(url)
+    .then((data) => {
+        
+        console.log(data.json());
+    })
+    .catch((error) => {
+        console.log('You fucked it up');
+        console.log(error);
+    })
 
-const jsonParser = bodyParser.json();
 
-// connection details
+/*
+old XHR method, trying to write Fetch to achieve the same functionality
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_DBNAME
-});
+const xhr = new XMLHttpRequest();
 
-// standard response after successfull query operations
-
-const responseSettings = {
-  'Content-type': 'application/JSON',
-  'Access-Control-Allow-Origin': '*',
-  'Accept': 'application/JSON',
-  'Status': 200
+xhr.open('GET', 'http://localhost:8080/posts');
+xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4) {
+        let data = JSON.stringify(xhr.responseText);
+        console.log(data);
+        divElement.innerText = data;
+        body.appendChild(divElement);
+    };
 };
+xhr.send();
 
-// database conneciton
+*/
 
-connection.connect((err) => {
-  err ? console.error(new Error(err)) : console.log(`Database ${process.env.DB_DBNAME} successfully connected.`);
-});
+// xhr.open('POST', 'http://localhost:8080/posts');
+// xhr.onreadystatechange = () => {
+//     if (xhr.readyState == 4) {
+//         xhr.send(
+//             {
+//                 'title': 'placeholder Title',
+//                 'url': 'placeholder URL'
+//             }
+//         )
+//     }
+// }
 
-// get all posts
-
-app.get('/posts', (req, res) => {
-  let query = `SELECT * FROM ${tableName}`;
-  connection.query(query, (err, result) => {
-    let errorMessage = `Could not get posts.`;
-    err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
-  });
-});
-
-// post a new post, and send back the full JSON of the last post in the same time
-
-app.post('/posts', jsonParser, (req, res) => {
-  let inputQuery = `INSERT INTO ${tableName} (title, url, timestamp, score, owner, vote) VALUES(${connection.escape(req.body.title)},${connection.escape(req.body.url)}, '${Math.floor(Date.now()/1000)}', '0','0','0');`;
-  let outputQuery = `SELECT * FROM ${tableName} WHERE post_id = (SELECT MAX(post_id) FROM ${tableName})`;
-  connection.query(inputQuery, (err, result) => {
-    let errorMessage = `Could not create post.`
-    err ? res.send({ 'Message': errorMessage, 'Error': err }) :
-      connection.query(outputQuery, (err, result) => {
-        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
-      });
-  });
-});
-
-// upvote post
-
-app.put('/posts/:id/upvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score +1, vote = vote + 1 WHERE (post_id = ${connection.escape(req.params.id)})`;
-  connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
-  });
-});
-
-// downvote post
-
-app.put('/posts/:id/downvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score -1, vote = vote -1 WHERE (post_id= ${connection.escape(req.params.id)})`;
-  connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
-  });
-});
-
-// delete post
-// username functionality is still missing
-
-app.delete('/posts/:id', (req, res) => {
-  let query = `DELETE FROM ${tableName} WHERE post_id = ${connection.escape(req.params.id)}`;
-  connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
-  });
-});
-
-// listening on port
-
-app.listen(PORT, () => {
-  console.log(`Backend listening on port number ${PORT}.`);
-});

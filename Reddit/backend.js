@@ -1,12 +1,22 @@
 'use strict';
 
-const body = document.querySelector('body');
+const main = document.querySelector('main');
 const url = 'http://localhost:8080/';
 
 fetch(`${url}posts`, { method: 'GET' })
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
+        data.forEach(element => {
+            let newDiv = document.createElement('div');
+            let h2 = document.createElement('h2');
+            let p = document.createElement('p');
+            h2.innerText = element.title;
+            p.innerText = element.url
+            newDiv.appendChild(h2);
+            newDiv.appendChild(p);
+            main.appendChild(newDiv);
+        });
     })
     .catch((error) => {
         console.log({

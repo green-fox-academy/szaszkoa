@@ -11,6 +11,7 @@ const PORT = 8080;
 const tableName = 'posts';
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(__dirname))
 
 const jsonParser = bodyParser.json();
 
@@ -36,6 +37,11 @@ const responseSettings = {
 
 connection.connect((err) => {
   err ? console.error(new Error(err)) : console.log(`Database ${process.env.DB_DBNAME} successfully connected.`);
+});
+
+
+app.get('/', (req, res) => {
+  res.sendFile(__dirname, '/index.html');
 });
 
 // get all posts
@@ -64,10 +70,19 @@ app.post('/posts', jsonParser, (req, res) => {
 
 // upvote post
 
+const putResponseSettings = {
+  'Content-type': 'application/JSON',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'PUT',
+  'Accept': 'application/JSON',
+  'Status': 200
+};
+
+
 app.put('/posts/:id/upvote', (req, res) => {
   let query = `UPDATE ${tableName} SET score = score +1, vote = vote + 1 WHERE (post_id = ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
+    err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
 });
 
@@ -76,7 +91,7 @@ app.put('/posts/:id/upvote', (req, res) => {
 app.put('/posts/:id/downvote', (req, res) => {
   let query = `UPDATE ${tableName} SET score = score -1, vote = vote -1 WHERE (post_id= ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
+    err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
 });
 

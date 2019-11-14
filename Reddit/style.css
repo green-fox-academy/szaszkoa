@@ -1,0 +1,85 @@
+body{
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  background-color: #CDCDCD;
+  display: block;
+}
+
+header{
+  background-image: url(assets/space.jpg);
+  height: 40vh;
+  color: white;
+}
+
+header > h1 {
+  margin: 0;
+}
+
+article{
+  display: flex;
+  gap: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+main{
+  background-color: white;
+  margin: 10px;
+  width: 70%;
+}
+
+aside{
+  background-color: white;
+  margin: 10px;
+  width: 30%;
+  padding: 10px;
+}
+
+.post{
+  margin: 10px;
+  border: solid 1px black;
+  display: flex;
+}
+
+.score{
+  width: 60px;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.posttext > h2 {
+  margin-bottom: 5px;
+}
+
+.posttext > p {
+  margin-top: 0;
+}
+
+.upvote{
+  background-image: url(assets/upvote.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 20px;
+  width: 20px;
+}
+
+.upvote:hover{
+  background-image: url(assets/upvoted.png);
+}
+
+.downvote{
+  background-image: url(assets/downvote.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 20px;
+  width: 20px;
+}
+
+.downvote:hover{
+  background-image: url(assets/downvoted.png);
+}

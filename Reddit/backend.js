@@ -12,39 +12,51 @@ function createNode(element) {
     return document.createElement(element);
 };
 
+// defining the post fetching separately
 
-function generatePosts() {
+function putPostsIntoDOM(element) {
+    let upvote = createNode('a');
+    upvote.setAttribute('class', 'upvote');
+    upvote.setAttribute('onclick', `upvote(${element.post_id})`);
+    let downvote = createNode('a');
+    downvote.setAttribute('class', 'downvote');
+    downvote.setAttribute('onclick', `downvote(${element.post_id})`);
+    let postContainer = createNode('div');
+    postContainer.setAttribute('class', 'post');
+    let votesContainer = createNode('div');
+    votesContainer.setAttribute('class', 'score');
+    let titleContainer = createNode('div');
+    titleContainer.setAttribute('class', 'posttext');
+    let postTitle = createNode('h2');
+    let postURL = createNode('p');
+    let votes = createNode('span');
+    postTitle.innerText = element.title;
+    postURL.innerText = element.url;
+    votes.innerText = element.score;
+    votesContainer.appendChild(upvote);
+    votesContainer.appendChild(votes);
+    votesContainer.appendChild(downvote);
+    titleContainer.appendChild(postTitle);
+    titleContainer.appendChild(postURL);
+    postContainer.appendChild(votesContainer);
+    postContainer.appendChild(titleContainer);
+    main.appendChild(postContainer);
+};
+
+function removeAllPosts(uniqueTagname) {
+    let mainNode = document.querySelector(uniqueTagname);
+    while(mainNode.firstChild){
+        mainNode.removeChild(mainNode.firstChild);
+    };
+};
+
+function getPosts() {
     fetch(`${url}posts`, { method: 'GET' })
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
             data.forEach(element => {
-                let upvote = createNode('a');
-                upvote.setAttribute('class', 'upvote');
-                upvote.setAttribute('onclick', `upvote(${element.post_id})`);
-                let downvote = createNode('a');
-                downvote.setAttribute('class', 'downvote');
-                downvote.setAttribute('onclick', `downvote(${element.post_id})`);
-                let postContainer = createNode('div');
-                postContainer.setAttribute('class', 'post');
-                let votesContainer = createNode('div');
-                votesContainer.setAttribute('class', 'score');
-                let titleContainer = createNode('div');
-                titleContainer.setAttribute('class', 'posttext');
-                let postTitle = createNode('h2');
-                let postURL = createNode('p');
-                let votes = createNode('span');
-                postTitle.innerText = element.title;
-                postURL.innerText = element.url;
-                votes.innerText = element.score;
-                votesContainer.appendChild(upvote);
-                votesContainer.appendChild(votes);
-                votesContainer.appendChild(downvote);
-                titleContainer.appendChild(postTitle);
-                titleContainer.appendChild(postURL);
-                postContainer.appendChild(votesContainer);
-                postContainer.appendChild(titleContainer);
-                main.appendChild(postContainer);
+                putPostsIntoDOM(element);
             });
         })
         .catch((error) => {
@@ -60,7 +72,8 @@ function upvote(post_id) {
     xhr.open('PUT', `http://localhost:8080/posts/${post_id}/upvote`);
     xhr.setRequestHeader('mode', 'cors');
     xhr.send();
-    document.location.reload(true);
+    removeAllPosts('main');
+    getPosts();
 }
 
 function downvote(post_id) {
@@ -68,7 +81,8 @@ function downvote(post_id) {
     xhr.open('PUT', `http://localhost:8080/posts/${post_id}/downvote`);
     xhr.setRequestHeader('mode', 'cors');
     xhr.send();
-    document.location.reload(true);
+    removeAllPosts('main');
+    getPosts();
 }
 
 // xhr.open('GET', 'http://localhost:8080/posts');
@@ -82,7 +96,7 @@ function downvote(post_id) {
 // };
 // xhr.send();
 
-generatePosts();
+getPosts();
 
 // const putFetchData = {
 //     method: 'PUT',

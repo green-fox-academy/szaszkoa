@@ -3,15 +3,12 @@
 const main = document.querySelector('main');
 const url = 'http://localhost:8080/';
 
-// TODO function targetting the used button and disabling the other. 
+// TODO
+// TODO function targetting the used button and disabling the other. after implementing users ofcourse
+// TODO create a new HTML page for the new post function
+// TODO create the FORM for the new HTML page
+// write the SEND fetch to target the post end-point
 
-let upvoteNode = document.getElementById('post1score')
-
-console.log(`you selected this: ${upvoteNode}`)
-
-// function buttonColorAndDisable(post_id, voteType){
-
-// }
 
 // *** GET POSTS FUNCTIONS ***
 
@@ -29,15 +26,23 @@ function putPostsIntoDOM(element) {
     downvote.setAttribute('class', 'downvote');
     downvote.setAttribute('onclick', `downvote(${element.post_id})`);
     let postContainer = createNode('div');
-    postContainer.setAttribute('class', 'post');
+    postContainer.setAttribute('class', `post id${element.post_id}`);
     let votesContainer = createNode('div');
-    votesContainer.setAttribute('class', 'score');
+    votesContainer.setAttribute('class', `score id${element.post_id}`);
     let titleContainer = createNode('div');
     titleContainer.setAttribute('class', 'posttext');
     let postTitle = createNode('h2');
     let postURL = createNode('p');
     let votes = createNode('span');
     votes.setAttribute('id', `post${element.post_id}score`);
+    let smallLinkContainer = createNode('div');
+    smallLinkContainer.setAttribute('class', 'smalllinks');
+    let modify = createNode('a');
+    modify.innerText = 'modify';
+    let remove = createNode('a');
+    remove.innerText = 'remove';
+    smallLinkContainer.appendChild(modify);
+    smallLinkContainer.appendChild(remove);
     postTitle.innerText = element.title;
     postURL.innerText = element.url;
     votes.innerText = element.score;
@@ -46,6 +51,7 @@ function putPostsIntoDOM(element) {
     votesContainer.appendChild(downvote);
     titleContainer.appendChild(postTitle);
     titleContainer.appendChild(postURL);
+    titleContainer.appendChild(smallLinkContainer);
     postContainer.appendChild(votesContainer);
     postContainer.appendChild(titleContainer);
     main.appendChild(postContainer);

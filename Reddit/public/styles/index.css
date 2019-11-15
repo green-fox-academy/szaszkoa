@@ -7,7 +7,7 @@ body{
 }
 
 header{
-  background-image: url(assets/space.jpg);
+  background-image: url(../assets/space.jpg);
   height: 40vh;
   color: white;
 }
@@ -40,6 +40,7 @@ aside{
   margin: 10px;
   border: solid 1px black;
   display: flex;
+  padding: 10px 0;
 }
 
 .score{
@@ -54,14 +55,23 @@ aside{
 
 .posttext > h2 {
   margin-bottom: 5px;
+  margin-top: 5px;
 }
 
 .posttext > p {
   margin-top: 0;
+  margin-bottom: 5px;
 }
 
+.smalllinks > a{
+  font-size: 12px;
+  padding-right: 5px;
+  -bottom: 15px;
+}
+/* UPVOTE SECTION */
+
 .upvote{
-  background-image: url(assets/upvote.png);
+  background-image: url(../assets/upvote.png);
   background-repeat: no-repeat;
   background-position: center;
   height: 20px;
@@ -69,11 +79,13 @@ aside{
 }
 
 .upvote:hover{
-  background-image: url(assets/upvoted.png);
+  background-image: url(../assets/upvoted.png);
 }
 
+/* DONVOTE SECTION */
+
 .downvote{
-  background-image: url(assets/downvote.png);
+  background-image: url(../assets/downvote.png);
   background-repeat: no-repeat;
   background-position: center;
   height: 20px;
@@ -81,5 +93,8 @@ aside{
 }
 
 .downvote:hover{
-  background-image: url(assets/downvoted.png);
+  background-image: url(../assets/downvoted.png);
 }
+
+/* START OF NEW POST SECTION */
+

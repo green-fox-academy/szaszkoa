@@ -1,0 +1,37 @@
+body{
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  background-color: #CDCDCD;
+  display: block;
+}
+
+header{
+  background-image: url(../assets/space.jpg);
+  height: 40vh;
+  color: white;
+}
+
+header > h1 {
+  margin: 0;
+}
+
+article{
+  display: flex;
+  gap: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+main{
+  background-color: white;
+  margin: 10px;
+  width: 70%;
+}
+
+aside{
+  background-color: white;
+  margin: 10px;
+  width: 30%;
+  padding: 10px;
+}

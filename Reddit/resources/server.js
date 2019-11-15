@@ -11,7 +11,7 @@ const PORT = 8080;
 const tableName = 'posts';
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname))
+app.use(express.static('public'))
 
 const jsonParser = bodyParser.json();
 
@@ -41,7 +41,11 @@ connection.connect((err) => {
 
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname, '/index.html');
+  res.sendFile('/index.html');
+});
+
+app.get('/', (req, res) => {
+  res.sendFile('/newpost.html');
 });
 
 // get all posts

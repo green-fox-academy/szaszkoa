@@ -43,6 +43,8 @@ function putPostsIntoDOM(element) {
     main.appendChild(postContainer);
 };
 
+// function to remove all elements of the given DOM node
+
 function removeAllPosts(uniqueTagname) {
     let mainNode = document.querySelector(uniqueTagname);
     while(mainNode.firstChild){
@@ -68,22 +70,22 @@ function getPosts() {
 };
 
 function upvote(post_id) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('PUT', `http://localhost:8080/posts/${post_id}/upvote`);
-    xhr.setRequestHeader('mode', 'cors');
-    xhr.send();
+    fetch(`${url}posts/${post_id}/upvote`, {method: 'PUT', mode: 'cors'})
+        .catch((error) => {
+            console.log(error);
+        });
     removeAllPosts('main');
     getPosts();
-}
+};
 
 function downvote(post_id) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('PUT', `http://localhost:8080/posts/${post_id}/downvote`);
-    xhr.setRequestHeader('mode', 'cors');
-    xhr.send();
+    fetch(`${url}posts/${post_id}/downvote`, {method: 'PUT', mode: 'cors'})
+        .catch((error) => {
+            console.log(error);
+        });
     removeAllPosts('main');
     getPosts();
-}
+};
 
 // xhr.open('GET', 'http://localhost:8080/posts');
 // xhr.onreadystatechange = () => {
@@ -103,8 +105,12 @@ getPosts();
 //     mode: 'cors-with-forced-preflight'
 // }
 
+// let xhr = new XMLHttpRequest();
+// xhr.open('PUT', `http://localhost:8080/posts/${post_id}/upvote`);
+// xhr.setRequestHeader('mode', 'cors');
+// xhr.send();
+
 // function upvote(post_id) {
-//     let fetch = window.fetch.bind(window)
 //     fetch(`${url}posts/${post_id}/upvote`, putFetchData)
 //         .catch((error) => {
 //             console.log({

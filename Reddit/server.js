@@ -36,16 +36,17 @@ const responseSettings = {
 // database conneciton
 
 connection.connect((err) => {
-  err ? console.error(new Error(err)) : console.log(`Database ${process.env.DB_DBNAME} successfully connected.`);
+  err ? console.error(new Error(err)) : console.log(`Database *${process.env.DB_DBNAME}* successfully connected.`);
 });
 
+// sending the HTML files
 
 app.get('/', (req, res) => {
-  res.sendFile('/index.html');
+  res.sendFile(__dirname+ '/public/index.html');
 });
 
-app.get('/', (req, res) => {
-  res.sendFile('/newpost.html');
+app.get('/newpost', (req, res) => {
+  res.sendFile(__dirname+ '/public/newpost.html');
 });
 
 // get all posts
@@ -67,7 +68,8 @@ app.post('/posts', jsonParser, (req, res) => {
     let errorMessage = `Could not create post.`
     err ? res.send({ 'Message': errorMessage, 'Error': err }) :
       connection.query(outputQuery, (err, result) => {
-        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
+        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings); // send(JSON.stringify(result))
+        res.redirect('http://localhost:8080/'); // PRAISE GÁBOR *****
       });
   });
 });

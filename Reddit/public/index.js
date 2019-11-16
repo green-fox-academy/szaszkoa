@@ -10,12 +10,14 @@ const url = 'http://localhost:8080/';
 // write the SEND fetch to target the post end-point
 
 // *** FUNCTION TO SWITCH TO NEW POST VIEW ***
+let submitButton = document.querySelector('button');
+
+submitButton.setAttribute('onclick', `window.location.href = '${url}newpost'`)
+
 
 // added onclick="window.location.href = 'http://localhost:8080/newpost'" to the button on the HTML tag. maybe it can be done with a function as well
 
 // *** GET POSTS FUNCTIONS ***
-
-
 
 // defining reusable DOM manipulator function
 function createNode(element) {

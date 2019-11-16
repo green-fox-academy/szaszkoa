@@ -9,8 +9,10 @@ body{
 /* HEADER STYLE */
 
 header{
-  background-image: url(../assets/dione11366.jpg);
-  background-position-y: 20%;
+  background-image: url(../assets/veilnebula.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position-y: 40%;
   height: 30vh;
   color: white;
   box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);

@@ -24,6 +24,22 @@ function createNode(element) {
     return document.createElement(element);
 };
 
+// calculating elapsed time between now() and submission date
+function timeDiffCalculator(time) {
+    let elapsedTime = Math.floor((Date.now() / 1000) - time);
+    let days = Math.floor(elapsedTime / (24 * 60 * 60)); // 86400s in a day
+    let hours = Math.floor((elapsedTime - (days * 86400)) / (60 * 60)); // 3600s in an hour
+    let minutes = Math.floor((elapsedTime - ((days * 86400) + (hours * 3600))) / 60);
+
+    let timeDiffText = ''
+
+    days != 0 ? timeDiffText += `${days} ${days > 1 ? 'days' : 'day'}, ` : timeDiffText += '';
+    hours != 0 ? timeDiffText += `${hours} ${hours > 1 ? 'hours' : 'hour'}, ` : timeDiffText += '';
+    minutes != 0 ? timeDiffText += `${minutes} ${minutes > 1 ? 'minutes' : 'minute' }` : timeDiffText += '';
+
+    return `Submitted ${timeDiffText} ago`
+}
+
 // function to generate ONE post element, reused in the getPosts function
 function putPostsIntoDOM(element) {
     let upvote = createNode('a');
@@ -39,8 +55,12 @@ function putPostsIntoDOM(element) {
     let titleContainer = createNode('div');
     titleContainer.setAttribute('class', 'posttext');
     let postTitle = createNode('h2');
-    let postURL = createNode('p');
+    postTitle.innerText = element.title;
+    let postURL = createNode('a');
+    postURL.setAttribute('href', element.url)
+    postURL.innerText = element.url;
     let votes = createNode('span');
+    votes.innerText = element.score;
     votes.setAttribute('id', `post${element.post_id}score`);
     let smallLinkContainer = createNode('div');
     smallLinkContainer.setAttribute('class', 'smalllinks');
@@ -48,11 +68,13 @@ function putPostsIntoDOM(element) {
     modify.innerText = 'modify';
     let remove = createNode('a');
     remove.innerText = 'remove';
+    let postDetails = createNode('div');
+    let postTime = createNode('span');
+    postTime.innerText = timeDiffCalculator(element.timestamp);
+    postDetails.appendChild(postTime);
+    smallLinkContainer.appendChild(postDetails);
     smallLinkContainer.appendChild(modify);
     smallLinkContainer.appendChild(remove);
-    postTitle.innerText = element.title;
-    postURL.innerText = element.url;
-    votes.innerText = element.score;
     votesContainer.appendChild(upvote);
     votesContainer.appendChild(votes);
     votesContainer.appendChild(downvote);

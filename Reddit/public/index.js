@@ -24,6 +24,12 @@ function createNode(element) {
     return document.createElement(element);
 };
 
+// assigning anonymous to posts withous owners
+
+function anonimify(username) {
+    return username == 0 ? 'by <strong>Anonymous</strong>' : `by <strong>${username}</strong>`;
+}
+
 // calculating elapsed time between now() and submission date
 function timeDiffCalculator(time) {
     let elapsedTime = Math.floor((Date.now() / 1000) - time);
@@ -35,7 +41,7 @@ function timeDiffCalculator(time) {
 
     days != 0 ? timeDiffText += `${days} ${days > 1 ? 'days' : 'day'}, ` : timeDiffText += '';
     hours != 0 ? timeDiffText += `${hours} ${hours > 1 ? 'hours' : 'hour'}, ` : timeDiffText += '';
-    minutes != 0 ? timeDiffText += `${minutes} ${minutes > 1 ? 'minutes' : 'minute' }` : timeDiffText += '';
+    minutes != 0 ? timeDiffText += `${minutes} ${minutes > 1 ? 'minutes' : 'minute'}` : timeDiffText += '';
 
     return `Submitted ${timeDiffText} ago`
 }
@@ -45,33 +51,46 @@ function putPostsIntoDOM(element) {
     let upvote = createNode('a');
     upvote.setAttribute('class', 'upvote');
     upvote.setAttribute('onclick', `upvote(${element.post_id})`);
+
     let downvote = createNode('a');
     downvote.setAttribute('class', 'downvote');
     downvote.setAttribute('onclick', `downvote(${element.post_id})`);
+
     let postContainer = createNode('div');
     postContainer.setAttribute('class', `post id${element.post_id}`);
+
     let votesContainer = createNode('div');
     votesContainer.setAttribute('class', `score id${element.post_id}`);
+
     let titleContainer = createNode('div');
     titleContainer.setAttribute('class', 'posttext');
+
     let postTitle = createNode('h2');
     postTitle.innerText = element.title;
+
     let postURL = createNode('a');
     postURL.setAttribute('href', element.url)
     postURL.innerText = element.url;
+
     let votes = createNode('span');
     votes.innerText = element.score;
     votes.setAttribute('id', `post${element.post_id}score`);
+
     let smallLinkContainer = createNode('div');
     smallLinkContainer.setAttribute('class', 'smalllinks');
+
     let modify = createNode('a');
     modify.innerText = 'modify';
+
     let remove = createNode('a');
     remove.innerText = 'remove';
+
     let postDetails = createNode('div');
-    let postTime = createNode('span');
-    postTime.innerText = timeDiffCalculator(element.timestamp);
-    postDetails.appendChild(postTime);
+
+    let timeAndUsername = createNode('span');
+    timeAndUsername.innerHTML = `${timeDiffCalculator(element.timestamp)} ${anonimify(element.owner)}`;
+
+    postDetails.appendChild(timeAndUsername);
     smallLinkContainer.appendChild(postDetails);
     smallLinkContainer.appendChild(modify);
     smallLinkContainer.appendChild(remove);
@@ -91,7 +110,6 @@ function getPosts() {
     fetch(`${url}posts`, { method: 'GET' })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             data.forEach(element => {
                 putPostsIntoDOM(element);
             });
@@ -107,7 +125,6 @@ function getPosts() {
 function voteScoreChange(post_id, voteType) {
     let score = document.getElementById(`post${post_id}score`);
     let voteScore = parseInt(score.innerText);
-    console.log(voteScore);
     if (voteType === 'up') {
         voteScore += 1;
         score.innerText = voteScore;

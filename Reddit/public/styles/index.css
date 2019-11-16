@@ -114,9 +114,12 @@ aside > button:hover{
 .smalllinks > a{
   font-size: 12px;
   padding-right: 5px;
-  -bottom: 15px;
 }
 /* UPVOTE SECTION */
+
+.smalllinks > div > span{
+  font-size: 14px;
+}
 
 .upvote{
   background-image: url(../assets/upvote.png);

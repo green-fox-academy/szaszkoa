@@ -5,7 +5,16 @@ const url = 'http://localhost:8080/';
 
 // TODO
 // TODO function targetting the used button and disabling the other. after implementing users ofcourse
-// TODO experiment with a dark-mode using a switch button. It should also target the new post page
+// TODO new post page is not targeted by DarkMode as of yet
+// TODO separate components from this file to fasten page load
+// TODO implement client-pageURL masking
+// TODO implement user-handling
+// TODO implement modify and delete functionality after identifying user
+// TODO implement upvote/downvote functions
+// TODO implement sorting the posts
+
+// HIGHLY OPTIONAL
+// TODO implement content field into the post, and adding transition to the separate posts to enlargen when the 'enlarge' button is clicked
 
 // *** FUNCTION TO SWITCH TO NEW POST VIEW ***
 let submitButton = document.querySelector('button');
@@ -132,18 +141,18 @@ function voteScoreChange(post_id, voteType) {
 // functions for sending the PUT request and calling the voteScoreChange function
 function upvote(post_id) {
     fetch(`${url}posts/${post_id}/upvote`, { method: 'PUT', mode: 'cors' })
+        .then(voteScoreChange(post_id, 'up'))
         .catch((error) => {
             console.log(error);
         });
-    voteScoreChange(post_id, 'up');
 };
 
 function downvote(post_id) {
     fetch(`${url}posts/${post_id}/downvote`, { method: 'PUT', mode: 'cors' })
+        .then(voteScoreChange(post_id, 'down'))
         .catch((error) => {
             console.log(error);
         });
-    voteScoreChange(post_id, 'down');
 };
 
 getPosts();

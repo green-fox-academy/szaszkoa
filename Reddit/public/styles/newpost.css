@@ -2,7 +2,6 @@ body{
   margin: 0;
   font-family: 'Lato', sans-serif;
   font-weight: 300;
-  background-color: #CDCDCD;
   display: block;
 }
 
@@ -15,7 +14,6 @@ header{
   background-position-y: 40%;
   height: 30vh;
   color: white;
-  box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,7 +35,6 @@ article{
 }
 
 main{
-  background-color: white;
   margin: 10px;
   padding: 20px;
   width: 60%;
@@ -86,7 +83,6 @@ input, textarea{
   height: 20px;
   width: 100%;
   margin-bottom: 20px;
-  border: solid 1px #CDCDCD;
 }
 
 input:hover, textarea:hover{

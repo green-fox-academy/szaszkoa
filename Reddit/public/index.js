@@ -5,17 +5,12 @@ const url = 'http://localhost:8080/';
 
 // TODO
 // TODO function targetting the used button and disabling the other. after implementing users ofcourse
-//DONE TODO create a new HTML page for the new post function
-// TODO create the FORM for the new HTML page
-// write the SEND fetch to target the post end-point
+// TODO experiment with a dark-mode using a switch button. It should also target the new post page
 
 // *** FUNCTION TO SWITCH TO NEW POST VIEW ***
 let submitButton = document.querySelector('button');
 
 submitButton.setAttribute('onclick', `window.location.href = '${url}newpost'`)
-
-
-// added onclick="window.location.href = 'http://localhost:8080/newpost'" to the button on the HTML tag. maybe it can be done with a function as well
 
 // *** GET POSTS FUNCTIONS ***
 

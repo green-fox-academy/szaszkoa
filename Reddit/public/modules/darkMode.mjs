@@ -8,11 +8,7 @@ const darkMode = () => {
 
   // assigning secondary stylesheet value based on checkbox state
   switchElement.addEventListener('change', () => {
-    if (switchElement.checked === true) {
-      styleSheetRef.setAttribute('href', "/styles/dark.css");
-    } else if (switchElement.checked === false) {
-      styleSheetRef.setAttribute('href', "/styles/light.css");
-    };
+    switchElement.checked ? styleSheetRef.setAttribute('href', "/styles/dark.css") : styleSheetRef.setAttribute('href', "/styles/light.css");
   });
 };
 

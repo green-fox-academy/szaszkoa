@@ -1,10 +1,12 @@
 'use strict'
 
-const url = 'http://localhost:8080/';
+import { putPostsIntoDOM } from './putPostsIntoDOM.mjs';
 
-// GET posts fetch request
+const url = 'http://localhost:8080';
+
+// GET posts fetch request to populate the HTMLs post container with posts
 const getPosts = () => {
-  fetch(`${url}posts`, { method: 'GET' })
+  fetch(`${url}/posts`, { method: 'GET' })
     .then((response) => response.json())
     .then((data) => {
       data.forEach(element => {

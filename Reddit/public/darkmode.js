@@ -2,7 +2,7 @@
 
 // dark mode function
 let styleSheetRef = document.querySelector('link');
-let switchElement = document.getElementsByTagName('input')[0];
+let switchElement = document.getElementsByClassName('checkbox')[0];
 
 switchElement.addEventListener('change', () => {
   if (switchElement.checked === true) {

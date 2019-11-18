@@ -4,8 +4,7 @@ const main = document.querySelector('main');
 const url = 'http://localhost:8080/';
 
 // TODO
-// TODO function targetting the used button and disabling the other. after implementing users ofcourse
-// TODO new post page is not targeted by DarkMode as of yet
+// TODO function targetting the used vote button and disabling the other. after implementing users ofcourse
 // TODO separate components from this file to fasten page load
 // TODO implement client-pageURL masking
 // TODO implement user-handling

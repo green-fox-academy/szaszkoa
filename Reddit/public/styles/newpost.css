@@ -8,10 +8,11 @@ body{
 /* HEADER STYLE */
 
 header{
-  background-image: url(../assets/veilnebula.jpg);
+  /* background-image: url(../assets/veilnebula.jpg);
   background-repeat: no-repeat;
   background-size: 100%;
-  background-position-y: 40%;
+  background-position-y: 40%; */
+  background-color: black;
   height: 30vh;
   color: white;
   display: flex;
@@ -185,7 +186,6 @@ button:hover{
   background-image: url(../assets/sun.png);
   background-size: 26px;
   background-position: center;
-  transition: .4s;
   border-radius: 50%;
 }
 

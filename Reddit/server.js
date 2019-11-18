@@ -8,7 +8,8 @@ const bodyParser = require('body-parser');
 const env = require('dotenv').config();
 const app = express();
 const PORT = 8080;
-const tableName = 'posts';
+const postsTable = 'posts';
+const usersTable = 'users';
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'))
@@ -42,17 +43,17 @@ connection.connect((err) => {
 // sending the HTML files
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname+ '/public/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.get('/newpost', (req, res) => {
-  res.sendFile(__dirname+ '/public/newpost.html');
+  res.sendFile(__dirname + '/public/newpost.html');
 });
 
 // get all posts
 
 app.get('/posts', (req, res) => {
-  let query = `SELECT * FROM ${tableName}`;
+  let query = `SELECT * FROM ${postsTable}`;
   connection.query(query, (err, result) => {
     let errorMessage = `Could not get posts.`;
     err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
@@ -62,8 +63,8 @@ app.get('/posts', (req, res) => {
 // post a new post, and send back the full JSON of the last post in the same time
 
 app.post('/posts', jsonParser, (req, res) => {
-  let inputQuery = `INSERT INTO ${tableName} (title, url, timestamp, score, owner, vote) VALUES(${connection.escape(req.body.title)},${connection.escape(req.body.url)}, '${Math.floor(Date.now()/1000)}', '0','0','0');`;
-  let outputQuery = `SELECT * FROM ${tableName} WHERE post_id = (SELECT MAX(post_id) FROM ${tableName})`;
+  let inputQuery = `INSERT INTO ${postsTable} (title, url, timestamp, score, owner, vote) VALUES(${connection.escape(req.body.title)},${connection.escape(req.body.url)}, '${Math.floor(Date.now() / 1000)}', '0','0','0');`;
+  let outputQuery = `SELECT * FROM ${postsTable} WHERE post_id = (SELECT MAX(post_id) FROM ${postsTable})`;
   connection.query(inputQuery, (err, result) => {
     let errorMessage = `Could not create post.`
     err ? res.send({ 'Message': errorMessage, 'Error': err }) :
@@ -86,7 +87,7 @@ const putResponseSettings = {
 
 
 app.put('/posts/:id/upvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score +1, vote = vote + 1 WHERE (post_id = ${connection.escape(req.params.id)})`;
+  let query = `UPDATE ${postsTable} SET score = score +1, vote = vote + 1 WHERE (post_id = ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
@@ -95,7 +96,7 @@ app.put('/posts/:id/upvote', (req, res) => {
 // downvote post
 
 app.put('/posts/:id/downvote', (req, res) => {
-  let query = `UPDATE ${tableName} SET score = score -1, vote = vote -1 WHERE (post_id= ${connection.escape(req.params.id)})`;
+  let query = `UPDATE ${postsTable} SET score = score -1, vote = vote -1 WHERE (post_id= ${connection.escape(req.params.id)})`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
@@ -103,15 +104,28 @@ app.put('/posts/:id/downvote', (req, res) => {
 
 // delete post
 // username functionality is still missing
-
+// TODO add username identification
 app.delete('/posts/:id', (req, res) => {
-  let query = `DELETE FROM ${tableName} WHERE post_id = ${connection.escape(req.params.id)}`;
+  let query = `DELETE FROM ${postsTable} WHERE post_id = ${connection.escape(req.params.id)}`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
   });
 });
 
 // listening on port
+
+// register Endpoint
+app.put('/register', jsonParser, (req, res) => {
+  let query = `INSERT INTO ${usersTable} (username, first_name, last_name, email, password) VALUES (
+    ${connection.escape(req.body.username)},
+    ${req.body.first_name ? connection.escape(req.body.first_name) : null},
+    ${req.body.last_name ? connection.escape(req.body.last_name) : null},
+    ${connection.escape(req.body.email)},
+    ${connection.escape(req.body.password)});`
+  connection.query(query, (err, result) => {
+    err ? res.send(new Error(err)) : res.set(putResponseSettings).redirect('http://localhost:8080/');
+  })
+})
 
 app.listen(PORT, () => {
   console.log(`Backend listening on port number ${PORT}.`);

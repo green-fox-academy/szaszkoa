@@ -1,14 +1,38 @@
 'use strict';
 
-// dark mode function
+import { setSessionStorage } from './sessionStorage.mjs';
+import { setTransition, removeButtonTransition } from './darkModeTransition.mjs';
+
+// dark mode function with Session Storage attribute setting
 const darkMode = () => {
-  //grabbing swith DOM element
   let styleSheetRef = document.querySelector('link');
   let switchElement = document.getElementsByClassName('checkbox')[0];
 
-  // assigning secondary stylesheet value based on checkbox state
+  // checking session storage for existing setting and setting the switch according the value
+  if (sessionStorage.getItem('darkMode') == 'off' || null) {
+    removeButtonTransition();
+    switchElement.checked = false;
+    styleSheetRef.setAttribute('href', "/styles/light.css");
+    setSessionStorage('darkMode', 'off');
+  } else if (sessionStorage.getItem('darkMode') == 'on') {
+    removeButtonTransition();
+    switchElement.checked = true;
+    styleSheetRef.setAttribute('href', "/styles/dark.css");
+    setSessionStorage('darkMode', 'on');
+  }
+
+  // assigning secondary stylesheet value based on checkbox state and setting Session Storage
   switchElement.addEventListener('change', () => {
-    switchElement.checked ? styleSheetRef.setAttribute('href', "/styles/dark.css") : styleSheetRef.setAttribute('href', "/styles/light.css");
+    if (switchElement.checked) {
+      setTransition();
+      setSessionStorage('darkMode', 'on');
+      styleSheetRef.setAttribute('href', "/styles/dark.css");
+    } else {
+      setTransition();
+      setSessionStorage('darkMode', 'off');
+      styleSheetRef.setAttribute('href', "/styles/light.css");
+    };
+
   });
 };
 

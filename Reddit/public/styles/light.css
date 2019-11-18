@@ -3,19 +3,16 @@
 body{
   background-color: #CDCDCD;
   color: black;
-  transition: .4s;
 }
 
 header{
   box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
-  transition: .4s;
 }
 
 main{
   background-color: white;
   color: black;
   box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
-  transition: .4s;
 }
 
 aside > button {
@@ -26,7 +23,6 @@ aside > button {
   background-color: white;
   color: black;
   box-shadow: 2px 2px 10px 0px rgba(0,0,0,0.4);
-  transition: .4s;
 }
 
 .post{

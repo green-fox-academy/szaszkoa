@@ -28,20 +28,21 @@ header > h1 {
 
 article{
   display: flex;
+  justify-content: center; 
 }
 
 /* POST CONTAINER */
 
 main{
   margin: 10px;
-  width: 70%;
+  width: 60%;
   border-radius: 3px;
 }
 
 /* RIGHT SIDEBAR STYLE */
 
 aside{
-  width: 30%;
+  width: 20%;
   margin-right: 10px;
 }
 

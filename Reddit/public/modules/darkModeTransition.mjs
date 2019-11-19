@@ -2,11 +2,9 @@
 
 // defining a function to set transition on darkmode impacted elements to prevent transition when a session storage value is stored
 
-const setTransition = () => {
+const setTransition = (tagNames, classNames) => {
   // targeting the DOM elements changing color
   let nodeArray = [];
-  let tagNames = ['body', 'header', 'main'];
-  let classNames = ['aside-content', 'controls', 'user'];
   tagNames.forEach(node => {
     nodeArray.push(document.getElementsByTagName(node)[0]);
   });

@@ -54,7 +54,7 @@ const putPostsIntoDOM = (element) => {
   let postDetails = createNode('div');
 
   let timeAndUsername = createNode('span');
-  timeAndUsername.innerHTML = `${timeDiffCalculator(element.timestamp)} ${anonimify(element.owner)}`;
+  timeAndUsername.innerHTML = `${timeDiffCalculator(element.timestamp)} ${anonimify(element.username)}`;
 
   postDetails.appendChild(timeAndUsername);
   smallLinkContainer.appendChild(postDetails);

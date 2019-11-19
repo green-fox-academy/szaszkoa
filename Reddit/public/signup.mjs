@@ -7,7 +7,7 @@ import { darkMode } from './modules/darkMode.mjs';
 class Webpage {
 
     initialize() {
-      darkMode();
+      darkMode(['body', 'header', 'main'], ['aside-content', 'controls']);
       backButtonHref();
     };
 

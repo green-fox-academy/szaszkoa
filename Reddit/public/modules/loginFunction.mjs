@@ -1,6 +1,7 @@
 'use strict'
 
 import { setSessionStorage } from './sessionStorage.mjs';
+import { authenticationError } from './authenticationError.mjs'
 
 const url = 'http://localhost:8080';
 
@@ -17,7 +18,7 @@ const loginFunction = () => {
   // sending the login credentials
   let loginSettings = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/JSON' }, // nota bene: headers need to be sent when sending JSON!
+    headers: { 'Content-Type': 'application/JSON' }, // nota bene: headers need to be set when sending JSON!
     body: JSON.stringify(requestJSON),
     mode: 'cors'
   };
@@ -25,13 +26,14 @@ const loginFunction = () => {
   fetch(`${url}/validate`, loginSettings)
     .then((response) => response.json())
     .then(data => {
-      try { 
+      try {
         setSessionStorage('username', data[0].username);
+        setSessionStorage('user_id', data[0].user_id);
         window.location.href = 'http://localhost:8080/';
-      } catch { 
-        console.log('error')
-        // function to manipulate dom and display faulty user/password to be implemented here
-      }
+      } catch(error) {
+        console.log(error);
+        authenticationError();
+      };
     })
     .catch(error => {
       console.error(error);

@@ -9,7 +9,7 @@ import { registerButtonHref } from './modules/registerButtonHref.mjs';
 class Webpage {
 
   initialize() {
-    darkMode();
+    darkMode(['body', 'header', 'main'], ['aside-content', 'controls']);
     backButtonHref();
     registerButtonHref();
     window.loginFunction = loginFunction;

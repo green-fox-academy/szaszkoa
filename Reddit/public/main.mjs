@@ -12,7 +12,7 @@ class Webpage {
 
   initialize() {
     getPosts();
-    darkMode();
+    darkMode(['body', 'header', 'main'], ['aside-content', 'controls', 'user']);
     submitButtonHref();
     userDisplay('Welcome back');
     window.vote = vote; // defining the HTML elements onclick= function's definition when using imported function

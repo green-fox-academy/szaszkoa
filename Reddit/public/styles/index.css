@@ -142,6 +142,14 @@ aside > button:hover{
   background-image: url(../assets/upvoted.png);
 }
 
+.upvoted{
+  background-image: url(../assets/upvoted.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 20px;
+  width: 20px;
+}
+
 /* DONVOTE SECTION */
 
 .downvote{
@@ -154,6 +162,14 @@ aside > button:hover{
 
 .downvote:hover{
   background-image: url(../assets/downvoted.png);
+}
+
+.downvoted{
+  background-image: url(../assets/downvoted.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 20px;
+  width: 20px;
 }
 
 /* DARK MODE SWITCH ELEMENT*/

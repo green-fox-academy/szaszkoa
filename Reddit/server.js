@@ -59,7 +59,8 @@ app.get('/signup', (req, res) => {
 
 // get all posts
 app.get('/posts', (req, res) => {
-  let query = `SELECT * FROM ${postsTable};`;
+  let query = `SELECT post_id, title, url, timestamp, score, vote, username FROM ${postsTable}
+  LEFT JOIN ${usersTable} ON ${postsTable}.owner = ${usersTable}.user_id;`;
   connection.query(query, (err, result) => {
     let errorMessage = `Could not get posts.`;
     err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
@@ -68,7 +69,11 @@ app.get('/posts', (req, res) => {
 
 // post a new post, and send back the full JSON of the last post in the same time
 app.post('/posts', jsonParser, (req, res) => {
-  let inputQuery = `INSERT INTO ${postsTable} (title, url, timestamp, score, owner, vote) VALUES(${connection.escape(req.body.title)},${connection.escape(req.body.url)}, '${Math.floor(Date.now() / 1000)}', '0','0','0');`;
+  let inputQuery = `INSERT INTO ${postsTable} (title, url, timestamp, score, owner, vote) 
+  VALUES(${connection.escape(req.body.title)},
+  ${connection.escape(req.body.url)},
+  '${Math.floor(Date.now() / 1000)}',
+   '0',${connection.escape(req.body.user_id)},'0');`;
   let outputQuery = `SELECT * FROM ${postsTable} WHERE post_id = (SELECT MAX(post_id) FROM ${postsTable});`;
   connection.query(inputQuery, (err, result) => {
     let errorMessage = `Could not create post.`
@@ -140,7 +145,7 @@ const specialHeaderSettings = {
 
 // login endpoint, responding with a username in JSON
 app.post('/validate', jsonParser, (req, res) => {
-  let query = `SELECT username FROM ${usersTable} 
+  let query = `SELECT username, user_id FROM ${usersTable} 
     WHERE username = ${connection.escape(req.body.username)} 
     AND password = ${connection.escape(req.body.password)};`
     connection.query(query, (err, result) => {

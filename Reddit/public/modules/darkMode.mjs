@@ -4,7 +4,7 @@ import { setSessionStorage } from './sessionStorage.mjs';
 import { setTransition, removeButtonTransition } from './darkModeTransition.mjs';
 
 // dark mode function with Session Storage attribute setting
-const darkMode = () => {
+const darkMode = (tagNames, classNames) => {
   let styleSheetRef = document.querySelector('link');
   let switchElement = document.getElementsByClassName('checkbox')[0];
 
@@ -24,11 +24,11 @@ const darkMode = () => {
   // assigning darkMode stylesheet value based on checkbox state and setting Session Storage
   switchElement.addEventListener('change', () => {
     if (switchElement.checked) {
-      setTransition();
+      setTransition(tagNames, classNames);
       setSessionStorage('darkMode', 'on');
       styleSheetRef.setAttribute('href', "/styles/dark.css");
     } else {
-      setTransition();
+      setTransition(tagNames, classNames);
       setSessionStorage('darkMode', 'off');
       styleSheetRef.setAttribute('href', "/styles/light.css");
     };

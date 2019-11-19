@@ -40,8 +40,7 @@ connection.connect((err) => {
   err ? console.error(new Error(err)) : console.log(`Database *${process.env.DB_DBNAME}* successfully connected.`);
 });
 
-// sending the HTML files
-
+// serving the HTML files
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
@@ -50,10 +49,17 @@ app.get('/newpost', (req, res) => {
   res.sendFile(__dirname + '/public/newpost.html');
 });
 
-// get all posts
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/public/login.html');
+});
 
+app.get('/signup', (req, res) => {
+  res.sendFile(__dirname + '/signup.html');
+});
+
+// get all posts
 app.get('/posts', (req, res) => {
-  let query = `SELECT * FROM ${postsTable}`;
+  let query = `SELECT * FROM ${postsTable};`;
   connection.query(query, (err, result) => {
     let errorMessage = `Could not get posts.`;
     err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
@@ -61,22 +67,20 @@ app.get('/posts', (req, res) => {
 });
 
 // post a new post, and send back the full JSON of the last post in the same time
-
 app.post('/posts', jsonParser, (req, res) => {
   let inputQuery = `INSERT INTO ${postsTable} (title, url, timestamp, score, owner, vote) VALUES(${connection.escape(req.body.title)},${connection.escape(req.body.url)}, '${Math.floor(Date.now() / 1000)}', '0','0','0');`;
-  let outputQuery = `SELECT * FROM ${postsTable} WHERE post_id = (SELECT MAX(post_id) FROM ${postsTable})`;
+  let outputQuery = `SELECT * FROM ${postsTable} WHERE post_id = (SELECT MAX(post_id) FROM ${postsTable});`;
   connection.query(inputQuery, (err, result) => {
     let errorMessage = `Could not create post.`
     err ? res.send({ 'Message': errorMessage, 'Error': err }) :
       connection.query(outputQuery, (err, result) => {
-        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings); // send(JSON.stringify(result))
-        res.redirect('http://localhost:8080/'); // PRAISE GÁBOR *****
+        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).redirect('http://localhost:8080/'); // PRAISE GÁBOR *****
       });
   });
 });
 
-// upvote post
 
+//vote PUT header settings
 const putResponseSettings = {
   'Content-type': 'application/JSON',
   'Access-Control-Allow-Origin': '*',
@@ -85,34 +89,34 @@ const putResponseSettings = {
   'Status': 200
 };
 
-
+// upvote post
 app.put('/posts/:id/upvote', (req, res) => {
-  let query = `UPDATE ${postsTable} SET score = score +1, vote = vote + 1 WHERE (post_id = ${connection.escape(req.params.id)})`;
+  let query = `UPDATE ${postsTable} 
+  SET score = score +1, vote = vote + 1 
+  WHERE (post_id = ${connection.escape(req.params.id)});`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
 });
 
 // downvote post
-
 app.put('/posts/:id/downvote', (req, res) => {
-  let query = `UPDATE ${postsTable} SET score = score -1, vote = vote -1 WHERE (post_id= ${connection.escape(req.params.id)})`;
+  let query = `UPDATE ${postsTable} 
+  SET score = score -1, vote = vote -1 
+  WHERE (post_id= ${connection.escape(req.params.id)});`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
 });
 
 // delete post
-// username functionality is still missing
-// TODO add username identification
 app.delete('/posts/:id', (req, res) => {
-  let query = `DELETE FROM ${postsTable} WHERE post_id = ${connection.escape(req.params.id)}`;
+  let query = `DELETE FROM ${postsTable} 
+  WHERE post_id = ${connection.escape(req.params.id)};`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
   });
 });
-
-// listening on port
 
 // register Endpoint
 app.put('/register', jsonParser, (req, res) => {
@@ -126,6 +130,16 @@ app.put('/register', jsonParser, (req, res) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).redirect('http://localhost:8080/');
   })
 })
+
+// login endpoint, responding with a username in JSON
+app.get('/login', jsonParser, (req, res) => {
+  let query = `SELECT username FROM ${usersTable} 
+  WHERE username = ${connection.escape(req.body.username)} 
+  AND password = ${connection.escape(req.body.password)};`
+  connection.query(query, (err, result) => {
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result))
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Backend listening on port number ${PORT}.`);

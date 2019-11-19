@@ -11,7 +11,7 @@ const PORT = 8080;
 const postsTable = 'posts';
 const usersTable = 'users';
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
 
 const jsonParser = bodyParser.json();
@@ -54,7 +54,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-  res.sendFile(__dirname + '/signup.html');
+  res.sendFile(__dirname + '/public/signup.html');
 });
 
 // get all posts
@@ -119,7 +119,7 @@ app.delete('/posts/:id', (req, res) => {
 });
 
 // register Endpoint
-app.put('/register', jsonParser, (req, res) => {
+app.post('/signup', jsonParser, (req, res) => {
   let query = `INSERT INTO ${usersTable} (username, first_name, last_name, email, password) VALUES (
     ${connection.escape(req.body.username)},
     ${req.body.first_name ? connection.escape(req.body.first_name) : null},
@@ -131,13 +131,20 @@ app.put('/register', jsonParser, (req, res) => {
   })
 })
 
+const specialHeaderSettings = {
+  'Content-type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Accept': 'application/JSON',
+  'Status': 200
+};
+
 // login endpoint, responding with a username in JSON
-app.get('/login', jsonParser, (req, res) => {
+app.post('/validate', jsonParser, (req, res) => {
   let query = `SELECT username FROM ${usersTable} 
-  WHERE username = ${connection.escape(req.body.username)} 
-  AND password = ${connection.escape(req.body.password)};`
-  connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result))
+    WHERE username = ${connection.escape(req.body.username)} 
+    AND password = ${connection.escape(req.body.password)};`
+    connection.query(query, (err, result) => {
+    err ? res.status(401).send(new Error(err)) : res.set(specialHeaderSettings).send(JSON.stringify(result));
   });
 });
 

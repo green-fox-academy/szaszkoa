@@ -6,7 +6,7 @@ const setTransition = () => {
   // targeting the DOM elements changing color
   let nodeArray = [];
   let tagNames = ['body', 'header', 'main'];
-  let classNames = ['aside-content', 'controls'];
+  let classNames = ['aside-content', 'controls', 'user'];
   tagNames.forEach(node => {
     nodeArray.push(document.getElementsByTagName(node)[0]);
   });
@@ -15,7 +15,7 @@ const setTransition = () => {
   });
 
   nodeArray.forEach(node => {
-    node.style.transition = "1s"
+    node.style.transition = "1s";
   });
 };
 

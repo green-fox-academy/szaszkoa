@@ -101,7 +101,7 @@ aside > button:hover{
   filter: brightness(120%)
 }
 
-.aside-content, .controls {
+.aside-content, .controls, .user {
   padding: 20px;
   border-radius: 3px;
   margin-bottom: 10px;
@@ -123,6 +123,11 @@ aside > button:hover{
   margin: 0 20px 0 20px;
 }
 
+/* USER SECTION */
+
+.user > h4 {
+  margin: 0;
+}
 
 /* BUTTON STYLES */
 
@@ -146,6 +151,10 @@ button:hover{
 
 .back {
   background-color: #d03e2e;
+}
+
+.signup {
+  background-color: darkgreen;
 }
 
 /* DARK MODE SWITCH ELEMENT*/

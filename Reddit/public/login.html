@@ -8,33 +8,30 @@
   <link rel="stylesheet" href="/styles/light.css">
   <link rel="stylesheet" href="/styles/subpage.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:300&display=swap" rel="stylesheet">
-  <title>Bootleg Reddit</title>
+  <title>Login / Bootleg Reddit</title>
 </head>
 
 <body>
   <header>
-    <h1>create new post</h1>
+    <h1>Login</h1>
   </header>
   <article>
     <main>
-      <form action="/posts" method="POST">
+      <form>
         <div>
-          <h2>Submit new post</h2>
+          <h2>Log in to domain</h2>
         </div>
         <div>
-          <label for="title">Title:</label>
-          <input type="text" id="title" name="title">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username">
         </div>
         <div>
-          <label for="URL">Post URL</label>
-          <input type="text" id="URL" name="url">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password">
         </div>
         <div>
-          <label for="content">Content</label>
-          <textarea type="text" id="content" name="content"></textarea>
-        </div>
-        <div>
-          <button type="submit">Submit Post</button>
+          <button type="button" onclick="loginFunction()">Login</button>
+          <button type="button" class="signup">Register</button>
         </div>
       </form>
     </main>
@@ -47,12 +44,8 @@
         </label>
         <h4>Night mode</h4>
       </div>
-      <div class="user">
-        <h4 class="username" >Click here to sign in</h4>
-      </div>
       <div class="aside-content">
-        <h2>Rules of posting</h2>
-        <p>Follow these rules, or face the consequences</p>
+        <h2>Please remember the rules!</h2>
         <ul>
           <li>No hateful posts!</li>
           <li>No off-topic content!</li>
@@ -63,7 +56,7 @@
       </div>
     </aside>
   </article>
-  <script src="newpost.mjs" type="module"></script>
+  <script src="login.mjs" type="module"></script>
 </body>
 
 </html>

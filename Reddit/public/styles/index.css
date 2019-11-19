@@ -18,6 +18,7 @@ header{
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 header > h1 {
@@ -35,7 +36,7 @@ article{
 /* POST CONTAINER */
 
 main{
-  margin: 10px;
+  margin: 0 10px 0 10px;
   width: 60%;
   border-radius: 3px;
 }
@@ -50,7 +51,7 @@ aside{
 aside > button {
   font-size: 1em;
   width: 100%;
-  margin: 10px 0 10px 0;
+  margin: 0 0 10px 0;
   padding: 10px;
   border: none;
   background-color: #3d5a9a;
@@ -64,7 +65,7 @@ aside > button:hover{
   filter: brightness(120%)
 }
 
-.aside-content, .controls {
+.aside-content, .controls, .user {
   padding: 20px;
   border-radius: 3px;
   margin-bottom: 10px;
@@ -86,6 +87,11 @@ aside > button:hover{
   margin: 0 20px 0 20px;
 }
 
+/* USER SECTION */
+
+.user > h4 {
+  margin: 0;
+}
 
 /* POST STYLES */
 

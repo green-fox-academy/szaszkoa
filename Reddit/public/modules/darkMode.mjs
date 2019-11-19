@@ -19,9 +19,9 @@ const darkMode = () => {
     switchElement.checked = true;
     styleSheetRef.setAttribute('href', "/styles/dark.css");
     setSessionStorage('darkMode', 'on');
-  }
+  };
 
-  // assigning secondary stylesheet value based on checkbox state and setting Session Storage
+  // assigning darkMode stylesheet value based on checkbox state and setting Session Storage
   switchElement.addEventListener('change', () => {
     if (switchElement.checked) {
       setTransition();

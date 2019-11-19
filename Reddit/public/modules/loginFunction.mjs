@@ -26,9 +26,10 @@ const loginFunction = () => {
     .then((response) => response.json())
     .then(data => {
       try { 
-        setSessionStorage('username', data[0].username); 
+        setSessionStorage('username', data[0].username);
+        window.location.href = 'http://localhost:8080/';
       } catch { 
-        console.log('baszki')
+        console.log('error')
         // function to manipulate dom and display faulty user/password to be implemented here
       }
     })

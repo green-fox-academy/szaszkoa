@@ -7,7 +7,7 @@ const url = 'http://localhost:8080';
 const fetchGETSettings = {
   method: 'GET',
   mode: 'cors'
-}
+};
 
 // GET posts fetch request to populate the HTMLs post container with posts
 const getPosts = () => {
@@ -23,4 +23,4 @@ const getPosts = () => {
     });
 };
 
-export { getPosts }
+export { getPosts };

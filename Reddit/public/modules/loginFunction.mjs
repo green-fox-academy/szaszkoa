@@ -24,7 +24,14 @@ const loginFunction = () => {
 
   fetch(`${url}/validate`, loginSettings)
     .then((response) => response.json())
-    .then(data => setSessionStorage('username', data[0].username))
+    .then(data => {
+      try { 
+        setSessionStorage('username', data[0].username); 
+      } catch { 
+        console.log('baszki')
+        // function to manipulate dom and display faulty user/password to be implemented here
+      }
+    })
     .catch(error => {
       console.error(error);
     });

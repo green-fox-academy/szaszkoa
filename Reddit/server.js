@@ -58,14 +58,35 @@ app.get('/signup', (req, res) => {
   res.sendFile(__dirname + '/public/signup.html');
 });
 
+// *** GETTING POSTS AND CREATING POSTS ***
+
+// query getting the votes by the logged in user
+let userVoteQuery = `SELECT posts.post_id, title, url, timestamp, score, vote, username, users.user_id, vote_type FROM posts
+  LEFT JOIN users ON posts.owner = users.user_id
+  LEFT JOIN votes ON posts.post_id = votes.post_id AND votes.user_id = 1`
+
 // get all posts
-app.get('/posts', (req, res) => {
-  let query = `SELECT post_id, title, url, timestamp, score, vote, username FROM ${postsTable}
-  LEFT JOIN ${usersTable} ON ${postsTable}.owner = ${usersTable}.user_id;`;
-  connection.query(query, (err, result) => {
-    let errorMessage = `Could not get posts.`;
-    err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
-  });
+app.get('/posts/:user?', (req, res) => {
+  //getting the users ID from the request body
+  if(req.params.user){
+    //user ID recieved
+    let userVoteQuery = `SELECT ${postsTable}.post_id, title, url, timestamp, score, vote, username, ${usersTable}.user_id, vote_type FROM ${postsTable}
+      LEFT JOIN ${usersTable} ON ${postsTable}.owner = ${usersTable}.user_id
+      LEFT JOIN ${votesTable} ON ${postsTable}.post_id = ${votesTable}.post_id
+      AND ${votesTable}.user_id = ${connection.escape(req.params.user)};`
+      connection.query(userVoteQuery, (err, result) => {
+        let errorMessage = `Could not get posts.`;
+        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
+      });
+  } else {
+    // no user ID recieved
+    let query = `SELECT post_id, title, url, timestamp, score, vote, username, user_id FROM ${postsTable}
+    LEFT JOIN ${usersTable} ON ${postsTable}.owner = ${usersTable}.user_id;`;
+    connection.query(query, (err, result) => {
+      let errorMessage = `Could not get posts.`;
+      err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
+    });
+  };
 });
 
 // post a new post, and send back the full JSON of the last post in the same time
@@ -86,6 +107,8 @@ app.post('/posts', jsonParser, (req, res) => {
 });
 
 
+// *** VOTING SECTION ***
+
 //vote PUT header settings
 const putResponseSettings = {
   'Content-type': 'application/JSON',
@@ -95,7 +118,27 @@ const putResponseSettings = {
   'Status': 200
 };
 
-// *** VOTING SECTION ***
+//checking for existing vote
+app.put('/uservotes', jsonParser, (req,res) => {
+  let query = `SELECT vote FROM ${votesTable} WHERE 
+  user_id = ${connection.escape(req.body.user_id)}
+  AND post_id = ${connection.escape(req.body.post_id)};`;
+  connection.query(query, (err, result) => {
+    err? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
+  });
+})
+
+// vote table handling - this just inserts the new vote!
+app.put('/placeholder', jsonParser, (req,res) => {
+  let voteQuery = `INSERT INTO ${votesTable} (user_id, post_id, vote) VALUES (
+    ${connection.escape(req.body.user_id)},
+    ${connection.escape(req.body.post_id)},
+    ${connection.escape(req.body.vote)}
+  );`;
+  connection.query(voteQuery, (err, result) => {
+    err? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
+  });
+});
 
 // up/downvotes together
 app.put('/posts/:id/:votetype', jsonParser, (req, res) => {
@@ -106,16 +149,20 @@ app.put('/posts/:id/:votetype', jsonParser, (req, res) => {
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
-})
+});
 
-// delete post
-app.delete('/posts/:id', (req, res) => {
+// *** DELETE POST ***
+
+app.delete('/posts/:id', jsonParser, (req, res) => {
   let query = `DELETE FROM ${postsTable} 
-  WHERE post_id = ${connection.escape(req.params.id)};`;
+  WHERE post_id = ${connection.escape(req.params.id)} 
+  AND owner = ${connection.escape(req.body.user_id)};`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(responseSettings).send(`Record with ID ${req.params.id} have been deleted`);
   });
 });
+
+// *** REGISTER ENDPOINT ***
 
 // register Endpoint
 app.post('/signup', jsonParser, (req, res) => {
@@ -130,12 +177,7 @@ app.post('/signup', jsonParser, (req, res) => {
   })
 })
 
-const specialHeaderSettings = {
-  'Content-type': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Accept': 'application/JSON',
-  'Status': 200
-};
+// *** LOGIN ENDPOINT ***
 
 // login endpoint, responding with a username in JSON
 app.post('/validate', jsonParser, (req, res) => {
@@ -143,7 +185,7 @@ app.post('/validate', jsonParser, (req, res) => {
     WHERE username = ${connection.escape(req.body.username)} 
     AND password = ${connection.escape(req.body.password)};`
     connection.query(query, (err, result) => {
-    err ? res.status(401).send(new Error(err)) : res.set(specialHeaderSettings).send(JSON.stringify(result));
+    err ? res.status(401).send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
 });
 

@@ -1,11 +1,10 @@
 'use strict'
 
-// grabbing the post container in DOM
-const main = document.querySelector('main');
-
-//importing time diff calculator and the username checker function
 import { timeDiffCalculator } from './timeDiff.mjs';
 import { anonimify } from './anonimify.mjs'
+
+// grabbing the post container in DOM
+const main = document.querySelector('main');
 
 // defining reusable DOM manipulator function
 const createNode = (element) => {
@@ -14,14 +13,29 @@ const createNode = (element) => {
 
 // function to generate ONE post element, reused in the getPosts function
 const putPostsIntoDOM = (element) => {
+
+  // creating alredy pressed upvote/downvote buttons
   let upvote = createNode('a');
-  upvote.setAttribute('class', 'upvote');
-  upvote.setAttribute('onclick', `vote(${element.post_id},'up')`);
-
   let downvote = createNode('a');
-  downvote.setAttribute('class', 'downvote');
-  downvote.setAttribute('onclick', `vote(${element.post_id},'down')`);
+  if (element.vote_type) {
+    if (element.vote_type == 'UP') {
+      upvote.setAttribute('class', 'upvoted');
+      downvote.setAttribute('class', 'downvote');
+      downvote.setAttribute('onclick', `vote(${element.post_id},'down')`);
+    } else if (element.vote_type == "DOWN") {
+      downvote.setAttribute('class', 'downvoted');
+      upvote.setAttribute('class', 'upvote');
+      upvote.setAttribute('onclick', `vote(${element.post_id},'up')`);
+    }
+  } else {
+    upvote.setAttribute('class', 'upvote');
+    upvote.setAttribute('onclick', `vote(${element.post_id},'up')`);
 
+    downvote.setAttribute('class', 'downvote');
+    downvote.setAttribute('onclick', `vote(${element.post_id},'down')`);
+  }
+
+  // post details
   let postContainer = createNode('div');
   postContainer.setAttribute('class', `post id${element.post_id}`);
 
@@ -44,19 +58,18 @@ const putPostsIntoDOM = (element) => {
 
   let smallLinkContainer = createNode('div');
   smallLinkContainer.setAttribute('class', 'smalllinks');
-  
+
+  // *modify* and *remove* links displayed only for posts made by the logged in user
   let modify = createNode('a');
   let remove = createNode('a');
 
-  if(sessionStorage.getItem('username') == element.username){
+  if (sessionStorage.getItem('username') == element.username) {
     modify.innerText = 'modify';
-  
     remove.innerText = 'remove';
     remove.setAttribute('class', 'remove');
     remove.setAttribute('onclick', `removePost(${element.post_id})`);
   } else {
     modify.innerText = ' ';
-  
     remove.innerText = ' ';
   }
 

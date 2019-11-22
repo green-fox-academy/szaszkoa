@@ -9,9 +9,11 @@ const fetchGETSettings = {
   mode: 'cors'
 };
 
+const user_id = sessionStorage.getItem('user_id') ? `/${sessionStorage.getItem('user_id')}` : '';
+
 // GET posts fetch request to populate the HTMLs post container with posts
 const getPosts = () => {
-  fetch(`${url}/posts`, fetchGETSettings)
+  fetch(`${url}/posts${user_id}`, fetchGETSettings)
     .then((response) => response.json())
     .then((data) => {
       data.forEach(element => {

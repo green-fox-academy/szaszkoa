@@ -10,6 +10,7 @@ const app = express();
 const PORT = 8080;
 const postsTable = 'posts';
 const usersTable = 'users';
+const votesTable = 'votes';
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'))
@@ -94,25 +95,18 @@ const putResponseSettings = {
   'Status': 200
 };
 
-// upvote post
-app.put('/posts/:id/upvote', (req, res) => {
+// *** VOTING SECTION ***
+
+// up/downvotes together
+app.put('/posts/:id/:votetype', jsonParser, (req, res) => {
+  let voteType = req.params.votetype == 'upvote' ? '+1' : '-1';
   let query = `UPDATE ${postsTable} 
-  SET score = score +1, vote = vote + 1 
+  SET score = score ${voteType}
   WHERE (post_id = ${connection.escape(req.params.id)});`;
   connection.query(query, (err, result) => {
     err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
   });
-});
-
-// downvote post
-app.put('/posts/:id/downvote', (req, res) => {
-  let query = `UPDATE ${postsTable} 
-  SET score = score -1, vote = vote -1 
-  WHERE (post_id= ${connection.escape(req.params.id)});`;
-  connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
-  });
-});
+})
 
 // delete post
 app.delete('/posts/:id', (req, res) => {

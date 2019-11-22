@@ -44,12 +44,21 @@ const putPostsIntoDOM = (element) => {
 
   let smallLinkContainer = createNode('div');
   smallLinkContainer.setAttribute('class', 'smalllinks');
-
+  
   let modify = createNode('a');
-  modify.innerText = 'modify';
-
   let remove = createNode('a');
-  remove.innerText = 'remove';
+
+  if(sessionStorage.getItem('username') == element.username){
+    modify.innerText = 'modify';
+  
+    remove.innerText = 'remove';
+    remove.setAttribute('class', 'remove');
+    remove.setAttribute('onclick', `removePost(${element.post_id})`);
+  } else {
+    modify.innerText = ' ';
+  
+    remove.innerText = ' ';
+  }
 
   let postDetails = createNode('div');
 

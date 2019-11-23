@@ -1,7 +1,7 @@
 'use strict';
 
-import { backButtonHref } from './modules/backButton.mjs';
-import { darkMode } from './modules/darkMode.mjs';
+import { backButtonHref } from './modules/page/backButton.mjs';
+import { darkMode } from './modules/page/darkMode/darkMode.mjs';
 
 // *** DEFINITION OF FUNCTIONS FOR THE WEBAPP ***
 class Webpage {

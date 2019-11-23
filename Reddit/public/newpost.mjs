@@ -1,10 +1,10 @@
 'use strict';
 
 // *** IMPORTS FROM MODULES ***
-import { backButtonHref } from './modules/backButton.mjs';
-import { darkMode } from './modules/darkMode.mjs';
-import { userDisplay } from './modules/userDisplay.mjs';
-import { addUserToInput } from './modules/addUserToPost.mjs';
+import { backButtonHref } from './modules/page/backButton.mjs';
+import { darkMode } from './modules/page/darkMode/darkMode.mjs';
+import { userDisplay } from './modules/user/userDisplay.mjs';
+import { addUserToInput } from './modules/user/addUserToPost.mjs';
 
 // *** DEFINITION OF FUNCTIONS FOR THE WEBAPP ***
 class Webpage {

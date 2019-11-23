@@ -1,9 +1,9 @@
 'use strict';
 
-import { backButtonHref } from './modules/backButton.mjs';
-import { darkMode } from './modules/darkMode.mjs';
-import { loginFunction } from './modules/loginFunction.mjs';
-import { registerButtonHref } from './modules/registerButtonHref.mjs';
+import { backButtonHref } from './modules/page/backButton.mjs';
+import { darkMode } from './modules/page/darkMode/darkMode.mjs';
+import { loginFunction } from './modules/user/login/loginFunction.mjs';
+import { registerButtonHref } from './modules/user/registerButtonHref.mjs';
 
 // *** DEFINITION OF FUNCTIONS FOR THE WEBAPP ***
 class Webpage {

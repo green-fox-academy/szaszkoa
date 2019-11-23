@@ -1,7 +1,7 @@
 'use strict'
 
-import { setSessionStorage } from './sessionStorage.mjs';
-import { authenticationError } from './authenticationError.mjs'
+import { setSessionStorage } from '../../page/sessionStorage.mjs';
+import { authenticationError } from '../authenticationError.mjs'
 
 const url = 'http://localhost:8080';
 

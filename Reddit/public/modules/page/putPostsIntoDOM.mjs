@@ -20,12 +20,14 @@ const putPostsIntoDOM = (element) => {
   if (element.vote_type) {
     if (element.vote_type == 'UP') {
       upvote.setAttribute('class', 'upvoted');
+      upvote.setAttribute('onclick', `vote(${element.post_id},'up','DEL')`)
       downvote.setAttribute('class', 'downvote');
-      downvote.setAttribute('onclick', `vote(${element.post_id},'down')`);
+      downvote.setAttribute('onclick', `vote(${element.post_id},'down','MOD')`);
     } else if (element.vote_type == "DOWN") {
       downvote.setAttribute('class', 'downvoted');
+      downvote.setAttribute('onclick', `vote(${element.post_id},'down','DEL')`);
       upvote.setAttribute('class', 'upvote');
-      upvote.setAttribute('onclick', `vote(${element.post_id},'up')`);
+      upvote.setAttribute('onclick', `vote(${element.post_id},'up','MOD')`);
     }
   } else {
     upvote.setAttribute('class', 'upvote');

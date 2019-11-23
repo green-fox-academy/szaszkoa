@@ -1,6 +1,6 @@
 'use strict';
 
-import { setSessionStorage } from './sessionStorage.mjs';
+import { setSessionStorage } from '../sessionStorage.mjs';
 import { setTransition, removeButtonTransition } from './darkModeTransition.mjs';
 
 // dark mode function with Session Storage attribute setting

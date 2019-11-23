@@ -1,7 +1,7 @@
 'use strict'
 
 import { timeDiffCalculator } from './timeDiff.mjs';
-import { anonimify } from './anonimify.mjs'
+import { anonimify } from '../user/anonimify.mjs';
 
 // grabbing the post container in DOM
 const main = document.querySelector('main');

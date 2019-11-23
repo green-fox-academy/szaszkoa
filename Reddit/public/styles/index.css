@@ -124,6 +124,16 @@ aside > button:hover{
   font-size: 12px;
   padding-right: 5px;
 }
+
+.smalllinks > .remove {
+  color: red;
+}
+
+.smalllinks > .remove:hover {
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+}
 /* UPVOTE SECTION */
 
 .smalllinks > div > span{

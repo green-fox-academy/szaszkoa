@@ -60,24 +60,20 @@ app.get('/signup', (req, res) => {
 
 // *** GETTING POSTS AND CREATING POSTS ***
 
-// query getting the votes by the logged in user
-let userVoteQuery = `SELECT posts.post_id, title, url, timestamp, score, vote, username, users.user_id, vote_type FROM posts
-  LEFT JOIN users ON posts.owner = users.user_id
-  LEFT JOIN votes ON posts.post_id = votes.post_id AND votes.user_id = 1`
-
 // get all posts
 app.get('/posts/:user?', (req, res) => {
   //getting the users ID from the request body
-  if(req.params.user){
+  if (req.params.user) {
     //user ID recieved
     let userVoteQuery = `SELECT ${postsTable}.post_id, title, url, timestamp, score, vote, username, ${usersTable}.user_id, vote_type FROM ${postsTable}
       LEFT JOIN ${usersTable} ON ${postsTable}.owner = ${usersTable}.user_id
       LEFT JOIN ${votesTable} ON ${postsTable}.post_id = ${votesTable}.post_id
-      AND ${votesTable}.user_id = ${connection.escape(req.params.user)};`
-      connection.query(userVoteQuery, (err, result) => {
-        let errorMessage = `Could not get posts.`;
-        err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
-      });
+      AND ${votesTable}.user_id = ${connection.escape(req.params.user)}
+      ORDER BY ${postsTable}.post_id ASC;`
+    connection.query(userVoteQuery, (err, result) => {
+      let errorMessage = `Could not get posts.`;
+      err ? res.send({ 'Message': errorMessage, 'Error': err }) : res.set(responseSettings).send(JSON.stringify(result));
+    });
   } else {
     // no user ID recieved
     let query = `SELECT post_id, title, url, timestamp, score, vote, username, user_id FROM ${postsTable}
@@ -110,7 +106,7 @@ app.post('/posts', jsonParser, (req, res) => {
 // *** VOTING SECTION ***
 
 //vote PUT header settings
-const putResponseSettings = {
+const PUTResponseSettings = {
   'Content-type': 'application/JSON',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'PUT',
@@ -118,40 +114,60 @@ const putResponseSettings = {
   'Status': 200
 };
 
-//checking for existing vote
-app.put('/uservotes', jsonParser, (req,res) => {
-  let query = `SELECT vote FROM ${votesTable} WHERE 
-  user_id = ${connection.escape(req.body.user_id)}
-  AND post_id = ${connection.escape(req.body.post_id)};`;
-  connection.query(query, (err, result) => {
-    err? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
+// new vote endpoint
+app.post('/posts/newvote', jsonParser, (req, res) => {
+  let voteQuery = `INSERT INTO ${votesTable} (user_id, post_id, vote_type) VALUES (
+    ${connection.escape(req.body.user_id)},
+    ${connection.escape(req.body.post_id)},
+    ${connection.escape(req.body.vote_type)});`
+  connection.query(voteQuery, (err, result) => {
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
 })
 
-// vote table handling - this just inserts the new vote!
-app.put('/placeholder', jsonParser, (req,res) => {
-  let voteQuery = `INSERT INTO ${votesTable} (user_id, post_id, vote) VALUES (
-    ${connection.escape(req.body.user_id)},
-    ${connection.escape(req.body.post_id)},
-    ${connection.escape(req.body.vote)}
-  );`;
-  connection.query(voteQuery, (err, result) => {
-    err? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
+// modify existing vote endpoint
+app.put('/posts/modify', jsonParser, (req, res) => {
+  let voteType = connection.escape(req.body.vote_type);
+  let updateQuery = `UPDATE ${votesTable} SET vote_type = ${voteType}
+  WHERE user_id = ${connection.escape(req.body.user_id)}
+  AND post_id = ${connection.escape(req.body.post_id)};`;
+  connection.query(updateQuery, (err, result) => {
+    err ? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
-});
+})
 
-// up/downvotes together
-app.put('/posts/:id/:votetype', jsonParser, (req, res) => {
-  let voteType = req.params.votetype == 'upvote' ? '+1' : '-1';
+// delete vote endpoint
+app.delete('/posts/delete', jsonParser, (req, res) => {
+  let deleteQuery = `DELETE FROM ${votesTable}
+  WHERE user_id = ${connection.escape(req.body.user_id)}
+  AND post_id = ${connection.escape(req.body.post_id)}
+  AND vote_type = ${connection.escape(req.body.vote_type)};`;
+  connection.query(deleteQuery, (err, result) => {
+    err? res.send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
+  });
+})
+
+// up/downvotes together with submitting vote data to *posts* table
+app.put('/posts/:id/:votetype/:method?', (req, res) => {
+  let method = req.params.method
+  console.log(method);
+  let voteType = '';
+  if(method == 'modify'){
+    voteType = req.params.votetype == 'upvote' ? '+2' : '-2'; // switching the votes
+  } else if (method == 'delete'){
+    voteType = req.params.votetype == 'upvote' ? '-1' : '+1'; // negating the votes
+  } else {
+    voteType = req.params.votetype == 'upvote' ? '+1' : '-1'; // setting the vote as usual
+  }
   let query = `UPDATE ${postsTable} 
   SET score = score ${voteType}
   WHERE (post_id = ${connection.escape(req.params.id)});`;
   connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(putResponseSettings).send(JSON.stringify(result));
+    err ? res.send(new Error(err)) : res.set(PUTResponseSettings).send(JSON.stringify(result));
   });
 });
 
-// *** DELETE POST ***
+// *** DELETE POST ENDPOINT***
 
 app.delete('/posts/:id', jsonParser, (req, res) => {
   let query = `DELETE FROM ${postsTable} 
@@ -173,7 +189,7 @@ app.post('/signup', jsonParser, (req, res) => {
     ${connection.escape(req.body.email)},
     ${connection.escape(req.body.password)});`
   connection.query(query, (err, result) => {
-    err ? res.send(new Error(err)) : res.set(putResponseSettings).redirect('http://localhost:8080/');
+    err ? res.send(new Error(err)) : res.set(responseSettings).redirect('http://localhost:8080/');
   })
 })
 
@@ -184,7 +200,7 @@ app.post('/validate', jsonParser, (req, res) => {
   let query = `SELECT username, user_id FROM ${usersTable} 
     WHERE username = ${connection.escape(req.body.username)} 
     AND password = ${connection.escape(req.body.password)};`
-    connection.query(query, (err, result) => {
+  connection.query(query, (err, result) => {
     err ? res.status(401).send(new Error(err)) : res.set(responseSettings).send(JSON.stringify(result));
   });
 });

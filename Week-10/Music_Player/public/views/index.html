@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../styles/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300&amp;display=swap" rel="stylesheet">
+  <title>FoxPlayer</title>
+</head>
+
+<body>
+  <main>
+    <section>
+      <article>
+        <header>
+          <div id="display">
+            <img id="logo" src="../assets/foxplayer.png"></img>
+            <div>
+              <div id="playlist_label">Playlists</div>
+              <div id="new_playlist"></div>              
+            </div>
+          </div>
+          <div id="artwork"></div>
+        </header>
+        <ul id="playlists">
+          <li class="playlist">All Tracks</li>
+          <li class="playlist">Favorites</li>
+        </ul>
+      </article>
+      <aside>
+        <div id="current">
+          <div id="current_info">
+            <div id="song">My Favorite Song</div>
+            <div id="band">My Favorite Band</div>
+          </div>
+          <div id="addto_playlist"></div>
+          <div id="addto_favorite"></div>
+        </div>
+        <ol id="tracks">
+          <li class="track">Song one</li>
+          <li class="track">Song two</li>
+          <li class="track">Song three</li>
+          <li class="track">Song four</li>
+        </ol>
+      </aside>
+    </section>
+    <footer>
+      <div id="buttons">
+        <div id="rewind"></div>
+        <div id="pause_play"></div>
+        <div id="forward"></div>
+      </div>
+      <div id="progress">
+        <div id="remaining">1:22</div>
+          <input id="time_slider" type="range" min="1" max="100" value="50">
+        <div id="total">4:20</div>
+        <div id="shuffle"></div>
+      </div>
+      <div id="volume">
+        <div id="mute"></div>
+          <input id="vol_slider" type="range" min="1" max="100" value="50">
+      </div>
+    </footer>
+  </main>
+  <script src="index.mjs" type="module"></script>
+</body>
+
+</html>

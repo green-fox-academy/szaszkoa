@@ -15,7 +15,7 @@ class Webpage {
     getPosts();
     darkMode(['body', 'header', 'main'], ['aside-content', 'controls', 'user']);
     submitButtonHref();
-    userDisplay('Welcome back');
+    userDisplay('Signed in as');
     // defining the HTML elements onclick= function's definition when using imported function
     window.vote = vote; 
     window.removePost = removePost;

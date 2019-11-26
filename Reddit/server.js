@@ -150,7 +150,6 @@ app.delete('/posts/delete', jsonParser, (req, res) => {
 // up/downvotes together with submitting vote data to *posts* table
 app.put('/posts/:id/:votetype/:method?', (req, res) => {
   let method = req.params.method
-  console.log(method);
   let voteType = '';
   if(method == 'modify'){
     voteType = req.params.votetype == 'upvote' ? '+2' : '-2'; // switching the votes

@@ -1,7 +1,7 @@
 'use strict';
 
-const getPlaylists = () => {
-  fetch('http://localhost:5000/playlists')
+const getPlaylists = async () => {
+  await fetch('http://localhost:5000/playlists')
     .then(response => response.json())
     .then(playlists => {
       playlists.forEach(element => {

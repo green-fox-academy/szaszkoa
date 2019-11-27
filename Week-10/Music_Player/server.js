@@ -53,7 +53,15 @@ app.get('/songs', (req, res) => {
   });
 });
 
-// *** LISTENING FOR PORT ***
+//get selected song data
+app.get('/song/:id', (req,res) => {
+  let query = `SELECT * FROM ${songsTable} WHERE song_id = ${connection.escape(req.params.id)};`;
+  connection.query(query, (err, result) => {
+    err ? res.send(err) : res.set(200).send(JSON.stringify(result));
+  });
+});
+
+// *** LISTENING ON PORT ***
 
 app.listen(PORT, () => {
   console.log(`Listening on port *${PORT}*`);

@@ -14,7 +14,8 @@ const generateSongs = (element) => {
   let duration = document.createElement('span');
   duration.className = 'duration';
   duration.innerText = timeCalculator(element.duration);
-  item.className = `track id${element.song_id}`;
+  item.className = `track`;
+  item.dataset.songId = element.song_id;
   item.appendChild(number);
   item.appendChild(name);
   item.appendChild(duration);

@@ -168,10 +168,19 @@ aside > #tracks > .track {
 
 .track > .duration {
   float: right;
+  padding: 0 10px 0 0;
 } 
 
 aside > #tracks .track:nth-child(odd) {
   background-color: #eaeaea;
+}
+
+aside > #tracks > .track:hover {
+  background-color: #abe7e5;
+}
+
+#tracks > #selected {
+  background-color: #abe7e5;
 }
 
 /*** CONTROLS ***/

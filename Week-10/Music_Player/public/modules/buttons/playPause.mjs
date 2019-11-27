@@ -1,10 +1,11 @@
 'use strict';
 
+import { sliderProgress } from "../DOMmanipulation/setSlider.mjs";
+
 const playAndPause = () => {
   const playButton = document.getElementById('pause_play');
   const audioElement = document.querySelector('audio');
   playButton.addEventListener('click', () => {
-    console.log('kiscica');
     if (playButton.className == 'play') {
       audioElement.play();
       playButton.className = 'pause';
